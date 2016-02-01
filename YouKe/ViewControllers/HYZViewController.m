@@ -19,7 +19,7 @@
     if (self) {
         /*!修改导航条颜色*/
         self.navigationController.navigationBar.translucent = NO;
-        [[UINavigationBar appearance] setBackgroundImage:[UIImage initWithColor:[UIColor greenColor]] forBarMetrics:UIBarMetricsDefault];
+        [[UINavigationBar appearance] setBackgroundImage:[UIImage initWithColor:UIColorFromRGB(0x2B9D43)] forBarMetrics:UIBarMetricsDefault];
         [[UINavigationBar appearance] setShadowImage:[UIImage initWithColor:[UIColor clearColor]]];
     }
     return self;
@@ -39,7 +39,7 @@
 
 - (void)changeTitleViewTextColor
 {
-    UIColor *color = UIColorFromRGB(0x5987f8);
+    UIColor *color = UIColorFromRGB(0xFFFFFF);
     UIFont *font = [UIFont systemFontOfSize:18];
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_6_0
     NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:color,UITextAttributeTextColor,font,UITextAttributeFont, nil];

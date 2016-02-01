@@ -9,6 +9,8 @@
 #import "HYZViewController.h"
 #import "MainCollectionReusableView.h"
 #import "MainCollectionViewCell.h"
+#import "PublicSource.h"
+#import "MainMenuView.h"
 
 /*!首页*/
 @interface MainViewController : HYZViewController<UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout>

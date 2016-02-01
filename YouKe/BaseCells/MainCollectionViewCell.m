@@ -13,7 +13,7 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = UIColorFromRGB(0x546465);
+        self.backgroundColor = UIColorFromRGB(0xF5F5F5);
         _titleLable = [[UILabel alloc]initWithFrame:CGRectZero];
         _titleLable.translatesAutoresizingMaskIntoConstraints = NO;
         _titleLable.textAlignment = NSTextAlignmentCenter;

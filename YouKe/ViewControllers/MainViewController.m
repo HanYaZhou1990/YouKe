@@ -25,11 +25,48 @@
     return self;
 }
 
+- (void)refreshItemClicked:(UIBarButtonItem *)barItem{
+    NSLog(@"刷新");
+}
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.automaticallyAdjustsScrollViewInsets = NO;
     
-    self.view.backgroundColor = UIColorFromRGB(0xCBCBCB);
+    UIButton *leftButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [leftButton setTitle:@"优课通" forState:UIControlStateNormal];
+    leftButton.bounds = CGRectMake(0, 0, 60, 44);
+    [leftButton setTitleColor:UIColorFromRGB(0xFFFFFF) forState:UIControlStateNormal];
+    UIBarButtonItem *leftItem = [[UIBarButtonItem alloc]initWithCustomView:leftButton];
+    self.navigationItem.leftBarButtonItem = leftItem;
+    
+    
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refreshItemClicked:)];
+    self.navigationItem.rightBarButtonItem = rightItem;
+    
+    /*导航上中间的活动和群组按钮*/
+    MainMenuView *menuView = [[MainMenuView alloc] initWithFrame:CGRectZero];
+    menuView.titleArray = @[@"视频",@"音频",@"图片",@"课外"];
+    menuView.backgroundColor = UIColorFromRGB(0xFFFFFF);
+    menuView.selectedItem = [NSIndexPath indexPathForItem:0 inSection:0];
+    menuView.translatesAutoresizingMaskIntoConstraints = NO;
+    [menuView collectionItemClicked:^(UICollectionView *collectionView, NSIndexPath *indexPath){
+        menuView.selectedItem = indexPath;
+        if (indexPath.row == 0) {
+            /*视频*/
+        }else if (indexPath.row == 1){
+            /*音频*/
+        }else if (indexPath.row == 2){
+            /*图片*/
+        }else{
+            /*课外*/
+        }
+    }];
+    [self.view addSubview:menuView];
+    
+    
     _contentArray = @[@"语文",@"历史",@"数学",@"地理",@"英语",@"思想政治"];
     
     UICollectionViewFlowLayout *flowLayout=[[UICollectionViewFlowLayout alloc] init];
@@ -41,7 +78,7 @@
     _mainCollectionView.delegate=self;
     _mainCollectionView.dataSource=self;
     _mainCollectionView.showsHorizontalScrollIndicator=NO;
-    _mainCollectionView.backgroundColor = UIColorFromRGB(0xFFFFFF);
+    _mainCollectionView.backgroundColor = UIColorFromRGB(0xF0F0F0);
     _mainCollectionView.translatesAutoresizingMaskIntoConstraints = NO;
     _mainCollectionView.showsVerticalScrollIndicator = NO;
     [self.view addSubview:_mainCollectionView];
@@ -52,10 +89,15 @@
                                metrics:nil
                                views:NSDictionaryOfVariableBindings(_mainCollectionView)]];
     [self.view addConstraints:[NSLayoutConstraint
-                               constraintsWithVisualFormat:@"V:|[_mainCollectionView]|"
+                               constraintsWithVisualFormat:@"H:|[menuView]|"
                                options:1.0
                                metrics:nil
-                               views:NSDictionaryOfVariableBindings(_mainCollectionView)]];
+                               views:NSDictionaryOfVariableBindings(menuView)]];
+    [self.view addConstraints:[NSLayoutConstraint
+                               constraintsWithVisualFormat:@"V:|[menuView(==44)][_mainCollectionView]-44-|"
+                               options:1.0
+                               metrics:nil
+                               views:NSDictionaryOfVariableBindings(menuView,_mainCollectionView)]];
 
 }
 
@@ -87,23 +129,25 @@
 
 #pragma mark -
 #pragma mark UICollectionViewDelegate -
-
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    NSLog(@"-------->第%ld区第%ld行",(long)indexPath.section,(long)indexPath.row);
+}
 #pragma mark -
 #pragma mark UICollectionViewDelegateFlowLayout -
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section{
-    return 1.0;
+    return 4.0;
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section{
-    return 1.0;
+    return 4.0;
 }
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
-    return UIEdgeInsetsMake(0, 1, 0, 1);
+    return UIEdgeInsetsMake(0, 5, 10, 5);
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    return CGSizeMake((CGRectGetWidth(self.view.frame) - 5)/4, 36);
+    return CGSizeMake((CGRectGetWidth(self.view.frame) - 22)/4, 36);
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
