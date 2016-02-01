@@ -14,7 +14,6 @@
 		2C3987B41C5F0E1E00BD64EC /* MainWebcastViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C3987B31C5F0E1E00BD64EC /* MainWebcastViewController.m */; };
 		2C3987B71C5F0E3000BD64EC /* MainSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C3987B61C5F0E3000BD64EC /* MainSettingViewController.m */; };
 		2C3987BA1C5F106600BD64EC /* HYZ+Color.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C3987B91C5F106600BD64EC /* HYZ+Color.m */; };
-		2C3987C31C5F2E6A00BD64EC /* MainContentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C3987C21C5F2E6A00BD64EC /* MainContentCell.m */; };
 		2C3987C71C5F491500BD64EC /* MainCollectionReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C3987C61C5F491500BD64EC /* MainCollectionReusableView.m */; };
 		2C3987CA1C5F4B9200BD64EC /* MainCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C3987C91C5F4B9200BD64EC /* MainCollectionViewCell.m */; };
 		2CC976D61C5F015900D4C1D9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CC976D51C5F015900D4C1D9 /* main.m */; };
@@ -60,8 +59,6 @@
 		2C3987B61C5F0E3000BD64EC /* MainSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainSettingViewController.m; sourceTree = "<group>"; };
 		2C3987B81C5F106600BD64EC /* HYZ+Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HYZ+Color.h"; sourceTree = "<group>"; };
 		2C3987B91C5F106600BD64EC /* HYZ+Color.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "HYZ+Color.m"; sourceTree = "<group>"; };
-		2C3987C11C5F2E6A00BD64EC /* MainContentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainContentCell.h; sourceTree = "<group>"; };
-		2C3987C21C5F2E6A00BD64EC /* MainContentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainContentCell.m; sourceTree = "<group>"; };
 		2C3987C41C5F34EA00BD64EC /* PublicSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PublicSource.h; sourceTree = "<group>"; };
 		2C3987C51C5F491500BD64EC /* MainCollectionReusableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainCollectionReusableView.h; sourceTree = "<group>"; };
 		2C3987C61C5F491500BD64EC /* MainCollectionReusableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainCollectionReusableView.m; sourceTree = "<group>"; };
@@ -127,8 +124,6 @@
 		2C39879D1C5F0A3E00BD64EC /* BaseCells */ = {
 			isa = PBXGroup;
 			children = (
-				2C3987C11C5F2E6A00BD64EC /* MainContentCell.h */,
-				2C3987C21C5F2E6A00BD64EC /* MainContentCell.m */,
 				2C3987C81C5F4B9200BD64EC /* MainCollectionViewCell.h */,
 				2C3987C91C5F4B9200BD64EC /* MainCollectionViewCell.m */,
 				CFF9A9BA1C5F85660072FBA8 /* TitleCollectionCell.h */,
@@ -407,7 +402,6 @@
 				2C3987A81C5F0B6600BD64EC /* RootTabBarViewController.m in Sources */,
 				CFF9A9B91C5F85410072FBA8 /* MainMenuView.m in Sources */,
 				2C3987C71C5F491500BD64EC /* MainCollectionReusableView.m in Sources */,
-				2C3987C31C5F2E6A00BD64EC /* MainContentCell.m in Sources */,
 				2CC976D91C5F015900D4C1D9 /* AppDelegate.m in Sources */,
 				2C3987B41C5F0E1E00BD64EC /* MainWebcastViewController.m in Sources */,
 				2C3987AB1C5F0C2B00BD64EC /* HYZViewController.m in Sources */,
