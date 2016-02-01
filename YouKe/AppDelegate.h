@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RootTabBarViewController.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
