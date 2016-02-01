@@ -8,6 +8,7 @@
 
 #import "HYZViewController.h"
 
+/*!新闻*/
 @interface MainNewsViewController : HYZViewController
 
 @end

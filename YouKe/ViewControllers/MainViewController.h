@@ -7,7 +7,14 @@
 //
 
 #import "HYZViewController.h"
+#import "MainCollectionReusableView.h"
+#import "MainCollectionViewCell.h"
 
-@interface MainViewController : HYZViewController
+/*!首页*/
+@interface MainViewController : HYZViewController<UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout>
+
+@property (nonatomic, strong) UICollectionView     *mainCollectionView;
+
+@property (nonatomic, strong) NSArray              *contentArray;
 
 @end

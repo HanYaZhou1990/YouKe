@@ -8,6 +8,7 @@
 
 #import "HYZViewController.h"
 
+/*!设置*/
 @interface MainSettingViewController : HYZViewController
 
 @end

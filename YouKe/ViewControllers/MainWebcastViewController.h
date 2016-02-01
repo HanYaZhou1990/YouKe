@@ -8,6 +8,7 @@
 
 #import "HYZViewController.h"
 
+/*!直播*/
 @interface MainWebcastViewController : HYZViewController
 
 @end
