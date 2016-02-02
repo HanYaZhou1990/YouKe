@@ -157,7 +157,13 @@
 #pragma mark -
 #pragma mark UICollectionViewDelegate -
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"-------->第%ld区第%ld行",(long)indexPath.section,(long)indexPath.row);
+    /* 进页面之前先设置返回按钮 */
+    UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] init];
+    backButtonItem.title = _contentArray[indexPath.row];
+    self.navigationItem.backBarButtonItem = backButtonItem;
+    CourseListViewController *courseViewController = [[CourseListViewController alloc]init];
+    courseViewController.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:courseViewController animated:YES];
 }
 #pragma mark -
 #pragma mark UICollectionViewDelegateFlowLayout -

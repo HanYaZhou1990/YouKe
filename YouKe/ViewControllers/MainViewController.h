@@ -12,6 +12,7 @@
 #import "PublicSource.h"
 #import "MainMenuView.h"
 #import "MainCollectionImageCell.h"
+#import "CourseListViewController.h"
 
 /*!首页*/
 @interface MainViewController : HYZViewController<UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout>

@@ -31,10 +31,13 @@
     self.view.backgroundColor = UIColorFromRGB(0xEBEBEB);
     [self changeTitleViewTextColor];
     
-    UIImage *backImage = [[UIImage imageNamed:@"safari-forward.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 30, 0, 0)];
-    [[UIBarButtonItem appearance] setBackButtonBackgroundImage:backImage forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-    /*设置不显示返回按钮的文字*/
-    [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(NSIntegerMin, NSIntegerMin) forBarMetrics:UIBarMetricsDefault];
+    /*修改返回按钮颜色*/
+    self.navigationController.navigationBar.barStyle = UIStatusBarStyleDefault;
+    [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
+//    UIImage *backImage = [[UIImage imageNamed:@"safari-forward.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 30, 0, 0)];
+//    [[UIBarButtonItem appearance] setBackButtonBackgroundImage:backImage forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+//    /*设置不显示返回按钮的文字*/
+//    [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(NSIntegerMin, NSIntegerMin) forBarMetrics:UIBarMetricsDefault];
 }
 
 - (void)changeTitleViewTextColor
