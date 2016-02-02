@@ -22,7 +22,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
         {
-        self.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"首页" image:[UIImage imageNamed:@"index.png"] selectedImage:[UIImage imageNamed:@"index-click.png"]];
+        self.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"首页" image:[UIImage imageNamed:@"xx_tabbar_icon1_up.png"] selectedImage:[UIImage imageNamed:@"xx_tabbar_icon1_down.png"]];
         [[UINavigationBar appearance] setBarTintColor:UIColorFromRGB(0xffffff)];
         }
     return self;

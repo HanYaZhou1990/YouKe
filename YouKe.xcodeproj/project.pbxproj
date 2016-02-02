@@ -22,6 +22,10 @@
 		04AAD9B21C604FE6005A0C41 /* UIProgressView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AAD9A11C604FE6005A0C41 /* UIProgressView+AFNetworking.m */; };
 		04AAD9B31C604FE6005A0C41 /* UIRefreshControl+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AAD9A31C604FE6005A0C41 /* UIRefreshControl+AFNetworking.m */; };
 		04AAD9B41C604FE6005A0C41 /* UIWebView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AAD9A51C604FE6005A0C41 /* UIWebView+AFNetworking.m */; };
+		04AAD9B71C608F67005A0C41 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AAD9B61C608F67005A0C41 /* AboutViewController.m */; };
+		04AAD9BA1C608F76005A0C41 /* HostSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AAD9B91C608F76005A0C41 /* HostSettingViewController.m */; };
+		04AAD9BD1C608F9A005A0C41 /* PlayRecordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AAD9BC1C608F9A005A0C41 /* PlayRecordViewController.m */; };
+		04AAD9C01C608FB7005A0C41 /* MyCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AAD9BF1C608FB7005A0C41 /* MyCollectionViewController.m */; };
 		2C3987A81C5F0B6600BD64EC /* RootTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C3987A71C5F0B6600BD64EC /* RootTabBarViewController.m */; };
 		2C3987AB1C5F0C2B00BD64EC /* HYZViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C3987AA1C5F0C2B00BD64EC /* HYZViewController.m */; };
 		2C3987B11C5F0DFC00BD64EC /* MainNewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C3987B01C5F0DFC00BD64EC /* MainNewsViewController.m */; };
@@ -96,6 +100,14 @@
 		04AAD9A31C604FE6005A0C41 /* UIRefreshControl+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIRefreshControl+AFNetworking.m"; sourceTree = "<group>"; };
 		04AAD9A41C604FE6005A0C41 /* UIWebView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWebView+AFNetworking.h"; sourceTree = "<group>"; };
 		04AAD9A51C604FE6005A0C41 /* UIWebView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWebView+AFNetworking.m"; sourceTree = "<group>"; };
+		04AAD9B51C608F67005A0C41 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
+		04AAD9B61C608F67005A0C41 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
+		04AAD9B81C608F76005A0C41 /* HostSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HostSettingViewController.h; sourceTree = "<group>"; };
+		04AAD9B91C608F76005A0C41 /* HostSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HostSettingViewController.m; sourceTree = "<group>"; };
+		04AAD9BB1C608F9A005A0C41 /* PlayRecordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayRecordViewController.h; sourceTree = "<group>"; };
+		04AAD9BC1C608F9A005A0C41 /* PlayRecordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayRecordViewController.m; sourceTree = "<group>"; };
+		04AAD9BE1C608FB7005A0C41 /* MyCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCollectionViewController.h; sourceTree = "<group>"; };
+		04AAD9BF1C608FB7005A0C41 /* MyCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCollectionViewController.m; sourceTree = "<group>"; };
 		2C3987A61C5F0B6600BD64EC /* RootTabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootTabBarViewController.h; sourceTree = "<group>"; };
 		2C3987A71C5F0B6600BD64EC /* RootTabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootTabBarViewController.m; sourceTree = "<group>"; };
 		2C3987A91C5F0C2B00BD64EC /* HYZViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYZViewController.h; sourceTree = "<group>"; };
@@ -291,6 +303,14 @@
 			children = (
 				2C3987B51C5F0E3000BD64EC /* MainSettingViewController.h */,
 				2C3987B61C5F0E3000BD64EC /* MainSettingViewController.m */,
+				04AAD9BB1C608F9A005A0C41 /* PlayRecordViewController.h */,
+				04AAD9BC1C608F9A005A0C41 /* PlayRecordViewController.m */,
+				04AAD9BE1C608FB7005A0C41 /* MyCollectionViewController.h */,
+				04AAD9BF1C608FB7005A0C41 /* MyCollectionViewController.m */,
+				04AAD9B81C608F76005A0C41 /* HostSettingViewController.h */,
+				04AAD9B91C608F76005A0C41 /* HostSettingViewController.m */,
+				04AAD9B51C608F67005A0C41 /* AboutViewController.h */,
+				04AAD9B61C608F67005A0C41 /* AboutViewController.m */,
 			);
 			name = MainSetting;
 			sourceTree = "<group>";
@@ -435,7 +455,6 @@
 				TargetAttributes = {
 					2CC976D01C5F015900D4C1D9 = {
 						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = H7DMC4Q2M6;
 					};
 					2CC976E91C5F015900D4C1D9 = {
 						CreatedOnToolsVersion = 7.2;
@@ -499,16 +518,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04AAD9BA1C608F76005A0C41 /* HostSettingViewController.m in Sources */,
 				CFF9A9BD1C5F85660072FBA8 /* TitleCollectionCell.m in Sources */,
 				2C3987B71C5F0E3000BD64EC /* MainSettingViewController.m in Sources */,
 				2C3987BA1C5F106600BD64EC /* HYZ+Color.m in Sources */,
 				2C3987B11C5F0DFC00BD64EC /* MainNewsViewController.m in Sources */,
+				04AAD9BD1C608F9A005A0C41 /* PlayRecordViewController.m in Sources */,
 				2C3987A81C5F0B6600BD64EC /* RootTabBarViewController.m in Sources */,
 				04AAD9A61C604FE6005A0C41 /* AFAutoPurgingImageCache.m in Sources */,
 				CFF9A9B91C5F85410072FBA8 /* MainMenuView.m in Sources */,
 				04AAD9AC1C604FE6005A0C41 /* AFURLRequestSerialization.m in Sources */,
 				04AAD9A91C604FE6005A0C41 /* AFNetworkActivityIndicatorManager.m in Sources */,
+				04AAD9C01C608FB7005A0C41 /* MyCollectionViewController.m in Sources */,
 				04AAD9AB1C604FE6005A0C41 /* AFSecurityPolicy.m in Sources */,
+				04AAD9B71C608F67005A0C41 /* AboutViewController.m in Sources */,
 				A8D5F7851C6084DA009F6FB8 /* CourseListViewController.m in Sources */,
 				04AAD9A81C604FE6005A0C41 /* AFImageDownloader.m in Sources */,
 				A8D5F77C1C605459009F6FB8 /* MainViewController.m in Sources */,
