@@ -10,6 +10,9 @@
 
 @interface MainViewController ()
 
+
+@property (nonatomic, strong) MainMenuView          *menuView;
+
 @end
 
 @implementation MainViewController
@@ -47,24 +50,32 @@
     self.navigationItem.rightBarButtonItem = rightItem;
     
     /*导航上中间的活动和群组按钮*/
-    MainMenuView *menuView = [[MainMenuView alloc] initWithFrame:CGRectZero];
-    menuView.titleArray = @[@"视频",@"音频",@"图片",@"课外"];
-    menuView.backgroundColor = UIColorFromRGB(0xFFFFFF);
-    menuView.selectedItem = [NSIndexPath indexPathForItem:0 inSection:0];
-    menuView.translatesAutoresizingMaskIntoConstraints = NO;
-    [menuView collectionItemClicked:^(UICollectionView *collectionView, NSIndexPath *indexPath){
-        menuView.selectedItem = indexPath;
+    _menuView = [[MainMenuView alloc] initWithFrame:CGRectZero];
+    _menuView.titleArray = @[@"视频",@"音频",@"图片",@"课外"];
+    _menuView.backgroundColor = UIColorFromRGB(0xFFFFFF);
+    _menuView.selectedItem = [NSIndexPath indexPathForItem:0 inSection:0];
+    _menuView.translatesAutoresizingMaskIntoConstraints = NO;
+    [_menuView collectionItemClicked:^(UICollectionView *collectionView, NSIndexPath *indexPath){
         if (indexPath.row == 0) {
             /*视频*/
         }else if (indexPath.row == 1){
             /*音频*/
+            CATransition *transition = [CATransition animation];
+            transition.type = kCATransitionPush;
+            transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+            transition.fillMode = kCAFillModeForwards;
+            transition.duration = 0.3;
+            transition.subtype = _menuView.selectedItem.row >indexPath.row ? kCATransitionFromLeft:kCATransitionFromRight;
+            [[self.mainCollectionView layer] addAnimation:transition forKey:@"UITableViewReloadDataAnimationKey"];
         }else if (indexPath.row == 2){
             /*图片*/
         }else{
             /*课外*/
         }
+        _menuView.selectedItem = indexPath;
+        [_mainCollectionView reloadData];
     }];
-    [self.view addSubview:menuView];
+    [self.view addSubview:_menuView];
     
     
     _contentArray = @[@"语文",@"历史",@"数学",@"地理",@"英语",@"思想政治"];
@@ -74,6 +85,7 @@
     
     self.mainCollectionView=[[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:flowLayout];
     [_mainCollectionView registerClass:[MainCollectionViewCell class] forCellWithReuseIdentifier:@"cell"];
+    [_mainCollectionView registerClass:[MainCollectionImageCell class] forCellWithReuseIdentifier:@"imageCell"];
     [_mainCollectionView registerClass:[MainCollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"header"];
     _mainCollectionView.delegate=self;
     _mainCollectionView.dataSource=self;
@@ -89,15 +101,15 @@
                                metrics:nil
                                views:NSDictionaryOfVariableBindings(_mainCollectionView)]];
     [self.view addConstraints:[NSLayoutConstraint
-                               constraintsWithVisualFormat:@"H:|[menuView]|"
+                               constraintsWithVisualFormat:@"H:|[_menuView]|"
                                options:1.0
                                metrics:nil
-                               views:NSDictionaryOfVariableBindings(menuView)]];
+                               views:NSDictionaryOfVariableBindings(_menuView)]];
     [self.view addConstraints:[NSLayoutConstraint
-                               constraintsWithVisualFormat:@"V:|[menuView(==44)][_mainCollectionView]-44-|"
+                               constraintsWithVisualFormat:@"V:|[_menuView(==44)][_mainCollectionView]-44-|"
                                options:1.0
                                metrics:nil
-                               views:NSDictionaryOfVariableBindings(menuView,_mainCollectionView)]];
+                               views:NSDictionaryOfVariableBindings(_menuView,_mainCollectionView)]];
 
 }
 
@@ -112,10 +124,17 @@
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
-    MainCollectionViewCell *collectionViewCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
-    collectionViewCell.titleLable.text = _contentArray[indexPath.row];
-    collectionViewCell.titleLable.font = [UIFont systemFontOfSize:15.0f];
-    return collectionViewCell;
+    if (_menuView.selectedItem.row == 1) {
+        MainCollectionImageCell *imageCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"imageCell" forIndexPath:indexPath];
+        imageCell.titleLable.text = _contentArray[indexPath.row];
+        imageCell.titleLable.font = [UIFont systemFontOfSize:15.0f];
+        return imageCell;
+    }else{
+        MainCollectionViewCell *collectionViewCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
+        collectionViewCell.titleLable.text = _contentArray[indexPath.row];
+        collectionViewCell.titleLable.font = [UIFont systemFontOfSize:15.0f];
+            return collectionViewCell;
+    }
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
@@ -147,7 +166,11 @@
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    return CGSizeMake((CGRectGetWidth(self.view.frame) - 22)/4, 36);
+    if (_menuView.selectedItem.row == 1) {
+        return CGSizeMake((CGRectGetWidth(self.view.frame) - 22)/4, 36+(CGRectGetWidth(self.view.frame) - 22)/4+8);
+    }else{
+        return CGSizeMake((CGRectGetWidth(self.view.frame) - 22)/4, 36);
+    }
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
