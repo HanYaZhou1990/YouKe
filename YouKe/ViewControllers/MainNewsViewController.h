@@ -7,8 +7,12 @@
 //
 
 #import "HYZViewController.h"
+#import "MainMenuView.h"
+#import "MainNewsCell.h"
 
 /*!新闻*/
-@interface MainNewsViewController : HYZViewController
+@interface MainNewsViewController : HYZViewController<UITableViewDataSource,UITableViewDelegate>
+
+@property (nonatomic, strong) UITableView    *nesTableView;
 
 @end

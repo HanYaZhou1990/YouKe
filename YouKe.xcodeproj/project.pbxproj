@@ -38,6 +38,7 @@
 		2CC976FA1C5F015900D4C1D9 /* YouKeUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CC976F91C5F015900D4C1D9 /* YouKeUITests.m */; };
 		A8D5F77C1C605459009F6FB8 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A8D5F77B1C605459009F6FB8 /* MainViewController.m */; };
 		A8D5F77F1C60547F009F6FB8 /* MainCollectionImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A8D5F77E1C60547F009F6FB8 /* MainCollectionImageCell.m */; };
+		A8D5F7821C607A3A009F6FB8 /* MainNewsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A8D5F7811C607A3A009F6FB8 /* MainNewsCell.m */; };
 		CFF9A9B91C5F85410072FBA8 /* MainMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF9A9B81C5F85410072FBA8 /* MainMenuView.m */; };
 		CFF9A9BD1C5F85660072FBA8 /* TitleCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF9A9BB1C5F85660072FBA8 /* TitleCollectionCell.m */; };
 		CFF9A9BE1C5F85660072FBA8 /* TitleCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFF9A9BC1C5F85660072FBA8 /* TitleCollectionCell.xib */; };
@@ -128,6 +129,8 @@
 		A8D5F77B1C605459009F6FB8 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		A8D5F77D1C60547F009F6FB8 /* MainCollectionImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainCollectionImageCell.h; sourceTree = "<group>"; };
 		A8D5F77E1C60547F009F6FB8 /* MainCollectionImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainCollectionImageCell.m; sourceTree = "<group>"; };
+		A8D5F7801C607A3A009F6FB8 /* MainNewsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainNewsCell.h; sourceTree = "<group>"; };
+		A8D5F7811C607A3A009F6FB8 /* MainNewsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainNewsCell.m; sourceTree = "<group>"; };
 		CFF9A9B71C5F85410072FBA8 /* MainMenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenuView.h; sourceTree = "<group>"; };
 		CFF9A9B81C5F85410072FBA8 /* MainMenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainMenuView.m; sourceTree = "<group>"; };
 		CFF9A9BA1C5F85660072FBA8 /* TitleCollectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TitleCollectionCell.h; sourceTree = "<group>"; };
@@ -230,6 +233,8 @@
 				CFF9A9BA1C5F85660072FBA8 /* TitleCollectionCell.h */,
 				CFF9A9BB1C5F85660072FBA8 /* TitleCollectionCell.m */,
 				CFF9A9BC1C5F85660072FBA8 /* TitleCollectionCell.xib */,
+				A8D5F7801C607A3A009F6FB8 /* MainNewsCell.h */,
+				A8D5F7811C607A3A009F6FB8 /* MainNewsCell.m */,
 			);
 			path = BaseCells;
 			sourceTree = "<group>";
@@ -502,6 +507,7 @@
 				04AAD9A81C604FE6005A0C41 /* AFImageDownloader.m in Sources */,
 				A8D5F77C1C605459009F6FB8 /* MainViewController.m in Sources */,
 				04AAD9B11C604FE6005A0C41 /* UIImageView+AFNetworking.m in Sources */,
+				A8D5F7821C607A3A009F6FB8 /* MainNewsCell.m in Sources */,
 				04AAD9B21C604FE6005A0C41 /* UIProgressView+AFNetworking.m in Sources */,
 				2C3987C71C5F491500BD64EC /* MainCollectionReusableView.m in Sources */,
 				04AAD9B31C604FE6005A0C41 /* UIRefreshControl+AFNetworking.m in Sources */,
