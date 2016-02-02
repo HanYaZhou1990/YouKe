@@ -18,7 +18,7 @@
         _titleLable.translatesAutoresizingMaskIntoConstraints = NO;
         _titleLable.backgroundColor = [UIColor clearColor];
         _titleLable.font = [UIFont systemFontOfSize:15.0f];
-        _titleLable.textColor = UIColorFromRGB(0x000000);
+        _titleLable.textColor = RGBACOLOR(51, 51, 51, 1);;
         [self addSubview:_titleLable];
         
         [self addConstraints:[NSLayoutConstraint

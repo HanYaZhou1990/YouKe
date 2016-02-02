@@ -55,8 +55,8 @@
         if (cellIndexPath.section == indexPath.section && cellIndexPath.row == indexPath.row) {
             cell.backgroundColor = RGBACOLOR(255, 255, 255, 0);
             /*被选中的下划线颜色*/
-            cell.lingColor = UIColorFromRGB(0x2B9D43);
-            cell.collectiontitleLable.textColor = UIColorFromRGB(0x2B9D43);
+            cell.lingColor = RGBACOLOR(255, 133, 10, 1);
+            cell.collectiontitleLable.textColor = RGBACOLOR(255, 133, 10, 1);
             _clickedBlock(collectionView,indexPath);
             [cell setNeedsLayout];
         }else{
@@ -91,8 +91,8 @@
     if (indexPath.row == self.selectedItem.row) {
         cell.backgroundColor = RGBACOLOR(255, 255, 255, 0);
         /*被选中的下划线颜色,同时改变字体颜色*/
-        cell.lingColor = UIColorFromRGB(0x2B9D43);
-        cell.collectiontitleLable.textColor = UIColorFromRGB(0x2B9D43);
+        cell.lingColor = RGBACOLOR(255, 133, 10, 1);
+        cell.collectiontitleLable.textColor = RGBACOLOR(255, 133, 10, 1);
     }else{
         /*正常下划线颜色*/
         cell.lingColor = RGBACOLOR(255, 255, 254, 0);

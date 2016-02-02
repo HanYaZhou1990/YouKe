@@ -13,11 +13,13 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = UIColorFromRGB(0xF5F5F5);
+        self.layer.borderWidth = 1.0f;
+        self.layer.borderColor = RGBACOLOR(234, 234, 234, 1).CGColor;
+        self.backgroundColor = RGBACOLOR(245, 245, 245, 1);
         _titleLable = [[UILabel alloc]initWithFrame:CGRectZero];
         _titleLable.translatesAutoresizingMaskIntoConstraints = NO;
         _titleLable.textAlignment = NSTextAlignmentCenter;
-        _titleLable.textColor = UIColorFromRGB(0x3D3D3d);
+        _titleLable.textColor = RGBACOLOR(102, 102, 102, 1);
         _titleLable.adjustsFontSizeToFitWidth = YES;
         _titleLable.minimumScaleFactor = 0.8f;
         [self addSubview:_titleLable];

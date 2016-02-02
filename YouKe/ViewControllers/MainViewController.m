@@ -98,7 +98,7 @@
     _mainCollectionView.delegate=self;
     _mainCollectionView.dataSource=self;
     _mainCollectionView.showsHorizontalScrollIndicator=NO;
-    _mainCollectionView.backgroundColor = UIColorFromRGB(0xF0F0F0);
+    _mainCollectionView.backgroundColor = RGBACOLOR(240, 240, 240, 1);
     _mainCollectionView.translatesAutoresizingMaskIntoConstraints = NO;
     _mainCollectionView.showsVerticalScrollIndicator = NO;
     [self.view addSubview:_mainCollectionView];
