@@ -28,7 +28,7 @@
     return self;
 }
 
-- (void)refreshItemClicked:(UIBarButtonItem *)barItem{
+- (void)refreshItemClicked:(UIButton *)barItem{
     NSLog(@"刷新");
 }
 
@@ -45,8 +45,13 @@
     UIBarButtonItem *leftItem = [[UIBarButtonItem alloc]initWithCustomView:leftButton];
     self.navigationItem.leftBarButtonItem = leftItem;
     
-    
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refreshItemClicked:)];
+    UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    rightButton.bounds = CGRectMake(0, 0, 40, 40);
+    rightButton.contentEdgeInsets = UIEdgeInsetsMake(8, 8, 8, 8);
+    [rightButton setImage:[UIImage imageNamed:@"refresh_nor.png"] forState:UIControlStateNormal];
+    [rightButton setImage:[UIImage imageNamed:@"refresh_press.png"] forState:UIControlStateHighlighted];
+    [rightButton addTarget:self action:@selector(refreshItemClicked:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
     self.navigationItem.rightBarButtonItem = rightItem;
     
     /*导航上中间的活动和群组按钮*/
@@ -56,6 +61,9 @@
     _menuView.selectedItem = [NSIndexPath indexPathForItem:0 inSection:0];
     _menuView.translatesAutoresizingMaskIntoConstraints = NO;
     [_menuView collectionItemClicked:^(UICollectionView *collectionView, NSIndexPath *indexPath){
+        if (_menuView.selectedItem.row == indexPath.row) {
+            return ;
+        }
         if (indexPath.row == 0) {
             /*视频*/
         }else if (indexPath.row == 1){
