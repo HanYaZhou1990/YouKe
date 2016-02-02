@@ -149,12 +149,12 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
+    UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] init];
+    backButtonItem.title = datasource[indexPath.section];
+    self.navigationItem.backBarButtonItem = backButtonItem;
     if (indexPath.section==0)
     {
         //播放记录
-        UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] init];
-        backButtonItem.title = @"播放记录";
-        self.navigationItem.backBarButtonItem = backButtonItem;
         PlayRecordViewController *vc = [[PlayRecordViewController alloc]init];
         vc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:vc animated:YES];
@@ -162,9 +162,6 @@
     if (indexPath.section==1)
     {
         //我的收藏
-        UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] init];
-        backButtonItem.title = @"我的收藏";
-        self.navigationItem.backBarButtonItem = backButtonItem;
         MyCollectionViewController *vc = [[MyCollectionViewController alloc]init];
         vc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:vc animated:YES];
@@ -172,9 +169,6 @@
     if (indexPath.section==2)
     {
         //服务器设置
-        UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] init];
-        backButtonItem.title = @"服务器设置";
-        self.navigationItem.backBarButtonItem = backButtonItem;
         HostSettingViewController *vc = [[HostSettingViewController alloc]init];
         vc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:vc animated:YES];
@@ -182,9 +176,6 @@
     if (indexPath.section==3)
     {
         //关于软件
-        UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] init];
-        backButtonItem.title = @"关于软件";
-        self.navigationItem.backBarButtonItem = backButtonItem;
         AboutViewController *vc = [[AboutViewController alloc]init];
         vc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:vc animated:YES];
