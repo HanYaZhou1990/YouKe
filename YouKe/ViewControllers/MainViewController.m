@@ -60,18 +60,18 @@
             /*视频*/
         }else if (indexPath.row == 1){
             /*音频*/
-            CATransition *transition = [CATransition animation];
-            transition.type = kCATransitionPush;
-            transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-            transition.fillMode = kCAFillModeForwards;
-            transition.duration = 0.3;
-            transition.subtype = _menuView.selectedItem.row >indexPath.row ? kCATransitionFromLeft:kCATransitionFromRight;
-            [[self.mainCollectionView layer] addAnimation:transition forKey:@"UITableViewReloadDataAnimationKey"];
         }else if (indexPath.row == 2){
             /*图片*/
         }else{
             /*课外*/
         }
+        CATransition *transition = [CATransition animation];
+        transition.type = kCATransitionPush;
+        transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+        transition.fillMode = kCAFillModeForwards;
+        transition.duration = 0.3;
+        transition.subtype = _menuView.selectedItem.row >indexPath.row ? kCATransitionFromLeft:kCATransitionFromRight;
+        [[self.mainCollectionView layer] addAnimation:transition forKey:@"UITableViewReloadDataAnimationKey"];
         _menuView.selectedItem = indexPath;
         [_mainCollectionView reloadData];
     }];
