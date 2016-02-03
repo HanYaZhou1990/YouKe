@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		04126BA21C61CB9800245B70 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04126BA11C61CB9800245B70 /* LoginViewController.m */; };
+		04126BA51C61CBA800245B70 /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04126BA41C61CBA800245B70 /* RegisterViewController.m */; };
+		04126BA81C61CDF200245B70 /* WWTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 04126BA71C61CDF200245B70 /* WWTextField.m */; };
 		04AAD9A61C604FE6005A0C41 /* AFAutoPurgingImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AAD9861C604FE6005A0C41 /* AFAutoPurgingImageCache.m */; };
 		04AAD9A71C604FE6005A0C41 /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AAD9881C604FE6005A0C41 /* AFHTTPSessionManager.m */; };
 		04AAD9A81C604FE6005A0C41 /* AFImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AAD98A1C604FE6005A0C41 /* AFImageDownloader.m */; };
@@ -67,6 +70,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		04126BA01C61CB9800245B70 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		04126BA11C61CB9800245B70 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		04126BA31C61CBA800245B70 /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
+		04126BA41C61CBA800245B70 /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
+		04126BA61C61CDF200245B70 /* WWTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WWTextField.h; sourceTree = "<group>"; };
+		04126BA71C61CDF200245B70 /* WWTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WWTextField.m; sourceTree = "<group>"; };
 		04AAD9851C604FE6005A0C41 /* AFAutoPurgingImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFAutoPurgingImageCache.h; sourceTree = "<group>"; };
 		04AAD9861C604FE6005A0C41 /* AFAutoPurgingImageCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFAutoPurgingImageCache.m; sourceTree = "<group>"; };
 		04AAD9871C604FE6005A0C41 /* AFHTTPSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPSessionManager.h; sourceTree = "<group>"; };
@@ -264,6 +273,8 @@
 				2C3987C41C5F34EA00BD64EC /* PublicSource.h */,
 				2C3987C51C5F491500BD64EC /* MainCollectionReusableView.h */,
 				2C3987C61C5F491500BD64EC /* MainCollectionReusableView.m */,
+				04126BA61C61CDF200245B70 /* WWTextField.h */,
+				04126BA71C61CDF200245B70 /* WWTextField.m */,
 				2CC976E01C5F015900D4C1D9 /* Assets.xcassets */,
 			);
 			path = Tools;
@@ -311,6 +322,10 @@
 				04AAD9B91C608F76005A0C41 /* HostSettingViewController.m */,
 				04AAD9B51C608F67005A0C41 /* AboutViewController.h */,
 				04AAD9B61C608F67005A0C41 /* AboutViewController.m */,
+				04126BA01C61CB9800245B70 /* LoginViewController.h */,
+				04126BA11C61CB9800245B70 /* LoginViewController.m */,
+				04126BA31C61CBA800245B70 /* RegisterViewController.h */,
+				04126BA41C61CBA800245B70 /* RegisterViewController.m */,
 			);
 			name = MainSetting;
 			sourceTree = "<group>";
@@ -520,6 +535,7 @@
 			files = (
 				04AAD9BA1C608F76005A0C41 /* HostSettingViewController.m in Sources */,
 				CFF9A9BD1C5F85660072FBA8 /* TitleCollectionCell.m in Sources */,
+				04126BA51C61CBA800245B70 /* RegisterViewController.m in Sources */,
 				2C3987B71C5F0E3000BD64EC /* MainSettingViewController.m in Sources */,
 				2C3987BA1C5F106600BD64EC /* HYZ+Color.m in Sources */,
 				2C3987B11C5F0DFC00BD64EC /* MainNewsViewController.m in Sources */,
@@ -544,12 +560,14 @@
 				2CC976D91C5F015900D4C1D9 /* AppDelegate.m in Sources */,
 				04AAD9B01C604FE6005A0C41 /* UIButton+AFNetworking.m in Sources */,
 				2C3987B41C5F0E1E00BD64EC /* MainWebcastViewController.m in Sources */,
+				04126BA81C61CDF200245B70 /* WWTextField.m in Sources */,
 				A8D5F77F1C60547F009F6FB8 /* MainCollectionImageCell.m in Sources */,
 				04AAD9AE1C604FE6005A0C41 /* AFURLSessionManager.m in Sources */,
 				2C3987AB1C5F0C2B00BD64EC /* HYZViewController.m in Sources */,
 				04AAD9AF1C604FE6005A0C41 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				04AAD9A71C604FE6005A0C41 /* AFHTTPSessionManager.m in Sources */,
 				04AAD9B41C604FE6005A0C41 /* UIWebView+AFNetworking.m in Sources */,
+				04126BA21C61CB9800245B70 /* LoginViewController.m in Sources */,
 				2CC976D61C5F015900D4C1D9 /* main.m in Sources */,
 				04AAD9AD1C604FE6005A0C41 /* AFURLResponseSerialization.m in Sources */,
 				2C3987CA1C5F4B9200BD64EC /* MainCollectionViewCell.m in Sources */,

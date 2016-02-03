@@ -11,7 +11,8 @@
 #import "HostSettingViewController.h"
 #import "PlayRecordViewController.h"
 #import "MyCollectionViewController.h"
-
+#import "LoginViewController.h"
+#import "RegisterViewController.h"
 @interface MainSettingViewController ()<UITableViewDataSource,UITableViewDelegate>
 {
     UITableView *myTableView;
@@ -79,6 +80,7 @@
     [loginBtn setTitle:@"点击登录查看更多功能" forState:UIControlStateNormal];
     [loginBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     loginBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    [loginBtn addTarget:self action:@selector(loginBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [headView addSubview:loginBtn];
     
     registerBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -88,6 +90,7 @@
     [registerBtn setBackgroundImage:[UIImage imageNamed:@"btn_register"] forState:UIControlStateNormal];
     [registerBtn setTitle:@"注册" forState:UIControlStateNormal];
     [registerBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [registerBtn addTarget:self action:@selector(registerBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [headView addSubview:registerBtn];
 }
 
@@ -109,6 +112,26 @@
     NSLog(@"退出登录");
     isLogin=NO;
     [myTableView reloadData];
+}
+
+-(void)loginBtnClick
+{
+    UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] init];
+    backButtonItem.title = @"登录";
+    self.navigationItem.backBarButtonItem = backButtonItem;
+    LoginViewController *vc = [[LoginViewController alloc]init];
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+-(void)registerBtnClick
+{
+    UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] init];
+    backButtonItem.title = @"注册";
+    self.navigationItem.backBarButtonItem = backButtonItem;
+    RegisterViewController *vc = [[RegisterViewController alloc]init];
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark -
