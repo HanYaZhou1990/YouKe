@@ -7,6 +7,7 @@
 //
 
 #import "HYZViewController.h"
+#import "AFNetworking.h"
 
 @interface RegisterViewController : HYZViewController
 

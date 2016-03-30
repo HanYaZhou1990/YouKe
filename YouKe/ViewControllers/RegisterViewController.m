@@ -106,7 +106,19 @@
 //注册协议
 -(void)sendRegisterData
 {
- 
+    NSDictionary *parameters = @{@"user.usercode":userAccountField,
+                                 @"user.username":userNameField,
+                                 @"user.password":@"",};
+    AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
+    [session GET:@"http://182.92.156.64/userregistered.action"
+      parameters:parameters
+        progress:^(NSProgress * _Nonnull downloadProgress) {
+            
+        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            
+        }];
 }
 
 #pragma mark -
