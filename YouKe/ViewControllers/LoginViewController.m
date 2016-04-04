@@ -120,12 +120,14 @@
     
      NSString *useurl = [NSString stringWithFormat:@"http://%@/userlogin.action",YKbasehost];
     AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
+    session.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", nil];
     [session GET:useurl
       parameters:parameters
         progress:^(NSProgress * _Nonnull downloadProgress){
             /*数据请求的进度*/
         } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
      {
+     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
      NSDictionary *responseDic = (NSDictionary *)responseObject;
          //打印结果 方便查看
      NSString *responseString = [BaseHelper dictionaryToJson:responseDic];
@@ -154,6 +156,7 @@
      }
          failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
      {
+      [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
      [BaseHelper waringInfo:@"登录失败"];
          // NSLog(@"%@", [error localizedDescription]);
      }];
