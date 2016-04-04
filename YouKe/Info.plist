@@ -34,8 +34,6 @@
 	<array>
 		<string>armv7</string>
 	</array>
-<<<<<<< HEAD
-=======
 	<key>NSAppTransportSecurity    
     NSAllowsArbitraryLoads</key>
 	<dict>
@@ -47,10 +45,6 @@
 		<key>Allow Arbitrary Loads</key>
 		<true/>
 	</dict>
-<<<<<<< Updated upstream
-=======
->>>>>>> origin/master
->>>>>>> Stashed changes
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
