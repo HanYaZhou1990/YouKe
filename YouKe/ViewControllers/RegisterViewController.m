@@ -120,7 +120,7 @@
     
     NSString *useurl = [NSString stringWithFormat:@"http://%@/userregistered.action",YKbasehost];
     AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
-    session.responseSerializer.acceptableContentTypes = [NSSet keyPathsForValuesAffectingValueForKey:@"text/json"];
+    session.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", nil];
     [session GET:useurl
       parameters:parameters
         progress:^(NSProgress * _Nonnull downloadProgress){
