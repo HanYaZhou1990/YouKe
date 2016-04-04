@@ -34,15 +34,9 @@
 	<array>
 		<string>armv7</string>
 	</array>
-	<key>NSAppTransportSecurity    
-    NSAllowsArbitraryLoads</key>
+	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
-		<true/>
-	</dict>
-	<key>APP Transport Security Settings</key>
-	<dict>
-		<key>Allow Arbitrary Loads</key>
 		<true/>
 	</dict>
 	<key>UISupportedInterfaceOrientations</key>
