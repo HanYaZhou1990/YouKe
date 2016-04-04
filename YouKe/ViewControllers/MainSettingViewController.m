@@ -1,10 +1,10 @@
-//
-//  MainSettingViewController.m
-//  YouKe
-//
-//  Created by 坚磐科技 on 16/2/1.
-//  Copyright © 2016年 韩亚周. All rights reserved.
-//
+    //
+    //  MainSettingViewController.m
+    //  YouKe
+    //
+    //  Created by 坚磐科技 on 16/2/1.
+    //  Copyright © 2016年 韩亚周. All rights reserved.
+    //
 
 #import "MainSettingViewController.h"
 #import "AboutViewController.h"
@@ -30,16 +30,25 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
-    {
+        {
         self.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"设置" image:[UIImage imageNamed:@"xx_tabbar_icon4_up.png"] selectedImage:[UIImage imageNamed:@"xx_tabbar_icon4_down.png"]];
         [[UINavigationBar appearance] setBarTintColor:UIColorFromRGB(0xffffff)];
-    }
+        }
     return self;
 }
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden=YES;
+    NSString *userId = YKusercode;
+    if (userId.length>0){
+        if (isLogin==NO){
+            isLogin=YES;
+            [myTableView reloadData];}}
+    else{
+        if (isLogin==YES){
+            isLogin=NO;
+            [myTableView reloadData];}}
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -52,13 +61,19 @@
 {
     [super viewDidLoad];
     
-    isLogin=YES;
+    NSString *userId = YKusercode;
+    if (userId.length>0){
+        isLogin=YES;
+        }
+    else{
+        isLogin=NO;
+        }
     [self setTheTableView];
     imgArray = @[@"history",@"collect",@"host",@"about"];
     datasource = @[@"播放记录",@"我的收藏",@"服务器设置",@"关于软件"];
 }
 
-//设置表头
+    //设置表头
 -(void)setTableViewHeadView
 {
     UIView *headView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 160)];
@@ -111,6 +126,8 @@
 {
     NSLog(@"退出登录");
     isLogin=NO;
+    [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"usercode"];
+    [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"password"];
     [myTableView reloadData];
 }
 
@@ -151,9 +168,9 @@
     static NSString *identifier = @"cellIdentifier";
     UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:identifier];
     if (cell==nil)
-    {
+        {
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
-    }
+        }
     cell.imageView.image = [UIImage imageNamed:[imgArray objectAtIndex:indexPath.section]];
     cell.textLabel.text = [datasource objectAtIndex:indexPath.section];
     cell.textLabel.font = [UIFont systemFontOfSize:16];
@@ -176,39 +193,39 @@
     backButtonItem.title = datasource[indexPath.section];
     self.navigationItem.backBarButtonItem = backButtonItem;
     if (indexPath.section==0)
-    {
-        //播放记录
+        {
+            //播放记录
         PlayRecordViewController *vc = [[PlayRecordViewController alloc]init];
         vc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:vc animated:YES];
-    }
+        }
     if (indexPath.section==1)
-    {
-        //我的收藏
+        {
+            //我的收藏
         MyCollectionViewController *vc = [[MyCollectionViewController alloc]init];
         vc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:vc animated:YES];
-    }
+        }
     if (indexPath.section==2)
-    {
-        //服务器设置
+        {
+            //服务器设置
         HostSettingViewController *vc = [[HostSettingViewController alloc]init];
         vc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:vc animated:YES];
-    }
+        }
     if (indexPath.section==3)
-    {
-        //关于软件
+        {
+            //关于软件
         AboutViewController *vc = [[AboutViewController alloc]init];
         vc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:vc animated:YES];
-    }
+        }
 }
 
 - (UIView*)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
     if (section == 3&&isLogin==YES)
-    {
+        {
         CGFloat bottomHeight = 90;
         UIButton *logoutButton = [UIButton buttonWithType:UIButtonTypeCustom];
         logoutButton.frame = CGRectMake(20, bottomHeight-70, SCREEN_WIDTH-40, 50);
@@ -222,7 +239,7 @@
         [footView addSubview:logoutButton];
         
         return footView;
-    }
+        }
     return nil;
 }
 
@@ -234,9 +251,9 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     if (section == 3&&isLogin==YES)
-    {
+        {
         return 90;
-    }
+        }
     return 0.00000001;
 }
 

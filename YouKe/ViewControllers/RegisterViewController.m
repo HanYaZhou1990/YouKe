@@ -1,10 +1,10 @@
-//
-//  RegisterViewController.m
-//  YouKe
-//
-//  Created by mac on 16/2/3.
-//  Copyright © 2016年 韩亚周. All rights reserved.
-//
+    //
+    //  RegisterViewController.m
+    //  YouKe
+    //
+    //  Created by mac on 16/2/3.
+    //  Copyright © 2016年 韩亚周. All rights reserved.
+    //
 
 #import "RegisterViewController.h"
 #import "WWTextField.h"
@@ -65,13 +65,13 @@
     registerButton.layer.cornerRadius=4;
     [registerButton addTarget:self action:@selector(registerBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:registerButton];
-
+    
 }
 
-//注册
+    //注册
 -(void)registerBtnClick
 {
-    //发送注册请求 请求成功返回
+        //发送注册请求 请求成功返回
     [userAccountField resignFirstResponder];
     [userPswField resignFirstResponder];
     [userNameField resignFirstResponder];
@@ -80,46 +80,71 @@
     NSString *pwdStr = [userPswField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     NSString *nameStr = [userNameField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     if (accountStr==nil||[accountStr isEqualToString:@""])
-    {
+        {
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"账号不能为空" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         [alert show];
         return;
-    }
+        }
     
     if (pwdStr==nil||[pwdStr isEqualToString:@""])
-    {
+        {
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"密码不能为空" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         [alert show];
         return;
-    }
+        }
     
     if (nameStr==nil||[nameStr isEqualToString:@""])
-    {
+        {
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"姓名不能为空" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         [alert show];
         return;
-    }
+        }
     
-    [self sendRegisterData];
+    if ([BaseHelper isCanUseHost]==YES)
+        {
+       [self sendRegisterData];; //发送注册协议
+        }
+    else
+        {
+        [BaseHelper waringInfo:@"服务器地址为空，请去“设置－服务器设置”中设置服务器地址!"];
+        }
+    
 }
 
-//注册协议
+    //注册协议
 -(void)sendRegisterData
 {
     NSDictionary *parameters = @{@"user.usercode":userAccountField.text,
                                  @"user.username":userNameField.text,
                                  @"user.password":[MD5 md5HexDigest:userPswField.text]};
+    
+    NSString *useurl = [NSString stringWithFormat:@"http://%@/userregistered.action",YKbasehost];
     AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
-    [session GET:@"http://182.92.156.64/userregistered.action"
+    session.responseSerializer.acceptableContentTypes = [NSSet keyPathsForValuesAffectingValueForKey:@"text/json"];
+    [session GET:useurl
       parameters:parameters
-        progress:^(NSProgress * _Nonnull downloadProgress) {
+        progress:^(NSProgress * _Nonnull downloadProgress){
             /*数据请求的进度*/
-        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-            NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers | NSJSONReadingMutableLeaves error:nil];
-            NSLog(@"%@", dic);
-        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-            NSLog(@"%@", [error localizedDescription]);
-        }];
+        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
+     {
+     
+     NSDictionary *responseDic = (NSDictionary *)responseObject;
+     
+         //打印结果 方便查看
+     NSString *responseString = [BaseHelper dictionaryToJson:responseDic];
+     NSLog(@"返回结果字符串 : %@",responseString);
+     
+     BOOL ret = [[responseDic valueForKey:@"ret"] boolValue];
+     if (ret){
+         [BaseHelper waringInfo:@"注册成功"];
+         [self.navigationController popViewControllerAnimated:YES];
+         }
+     }
+         failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
+     {
+     [BaseHelper waringInfo:@"注册失败"];
+         // NSLog(@"%@", [error localizedDescription]);
+     }];
 }
 
 #pragma mark -
@@ -139,17 +164,17 @@
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     if (textField ==userAccountField)
-    {
+        {
         [userPswField becomeFirstResponder];
-    }
+        }
     if (textField ==userPswField)
-    {
+        {
         [userNameField becomeFirstResponder];
-    }
+        }
     if (textField.returnKeyType == UIReturnKeyDone)
-    {
+        {
         [self registerBtnClick];
-    }
+        }
     return YES;
 }
 
@@ -162,17 +187,17 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+        // Dispose of any resources that can be recreated.
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

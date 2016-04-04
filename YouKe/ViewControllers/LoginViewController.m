@@ -1,10 +1,10 @@
-//
-//  LoginViewController.m
-//  YouKe
-//
-//  Created by mac on 16/2/3.
-//  Copyright © 2016年 韩亚周. All rights reserved.
-//
+    //
+    //  LoginViewController.m
+    //  YouKe
+    //
+    //  Created by mac on 16/2/3.
+    //  Copyright © 2016年 韩亚周. All rights reserved.
+    //
 
 #import "LoginViewController.h"
 #import "WWTextField.h"
@@ -68,109 +68,95 @@
     loginButton.layer.cornerRadius=4;
     [loginButton addTarget:self action:@selector(loginButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:loginButton];
-
+    
 }
 
-//找回密码
+    //找回密码
 -(void)findPwdButtonClicked:(id)sender
 {
     
 }
-//登录点击
+    //登录点击
 -(void)loginButtonClicked:(id)sender
 {
-    //验证不可为空
+        //验证不可为空
     [userAccountField resignFirstResponder];
     [userPswField resignFirstResponder];
     NSString *phoneStr = [userAccountField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     NSString *pwdStr = [userPswField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    //验证账号
+        //验证账号
     if (phoneStr==nil||[phoneStr isEqualToString:@""])
-    {
+        {
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"账号不能为空" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         [alert show];
         return;
-    }
+        }
     
-    //验证密码
+        //验证密码
     if (pwdStr==nil||[pwdStr isEqualToString:@""])
-    {
+        {
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"密码不能为空" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         [alert show];
         return;
-    }
+        }
     
     if ([BaseHelper isCanUseHost]==YES)
-    {
+        {
         [self sendLoginData]; //发送登录协议
-    }
+        }
     else
         {
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"服务器地址不能为空,请" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-        [alert show];
+        [BaseHelper waringInfo:@"服务器地址为空，请去“设置－服务器设置”中设置服务器地址!"];
         }
     
 }
-//登录协议
+    //登录协议
 -(void)sendLoginData
 {
     [MBProgressHUD showHUDAddedToExt:self.view showMessage:@"登录中..." animated:YES];
     
-//    NSString *useUrl = [NSString stringWithFormat:@"%@%@",[YKbasehost,@""];
-//    NSString *md5Password = [MD5 md5StringFromString:userPswField.text];
-//    
-//    // 取出push的deviceToken
-//    //    NSString *documentDirectorty = NSSearchPathForDirectoriesInDomains(NSDocumentationDirectory, NSUserDomainMask, YES)[0];
-//    //    NSString *path = [documentDirectorty stringByAppendingPathComponent:DeviceTokenFileName];
-//    //    NSDictionary *deviceTokenDict = [NSDictionary dictionaryWithContentsOfFile:path];
-//    
-//    NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:DEST_PATH_DeviceToken];
-//    DLog(@"dict --- %@", dict);
-//    NSString *deviceToken = dict[@"deviceToken"];
-//    
-//    if (!deviceToken) {
-//        deviceToken = @"";
-//    }
-//    NSDictionary *params = @{@"account":userAccountField.text,@"password":md5Password,@"push_token":deviceToken,@"push_account":userAccountField.text,@"type":@"2"}; //type 设备类型(1android 2iphone)
-//    
-//    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-//    [manager POST:useUrl parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject)
-//     {
-//         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-//         
-//         NSDictionary *responseDic = (NSDictionary *)responseObject;
-//         
-//         //打印结果 方便查看
-//         NSString *responseString = [PublicConfig dictionaryToJson:responseDic];
-//         DLog(@"返回结果字符串 : %@",responseString);
-//         
-//         NSString *resultCode = [responseDic valueForKey:@"code"]; //0成功 1失败
-//         if ([resultCode boolValue]==NO)
-//         {
-//             [PublicConfig setValue:userAccountField.text forKey:userAccount];
-//             
-//             [PublicConfig setValue:md5Password forKey:userPassword];
-//             
-//             NSString *dataStr = [responseDic valueForKey:@"data"];
-//             dataStr = [PublicConfig isSpaceString:@"" andReplace:dataStr];
-//             [PublicConfig setValue:dataStr forKey:userToken];
-//             
-//             //发送登录协议
-//             [[NSNotificationCenter defaultCenter]postNotificationName:loginDidSuccessNotification object:nil];
-//         }
-//         else
-//         {
-//             NSString *msgStr = [responseDic valueForKey:@"msg"];
-//             //[SVProgressHUD showErrorWithStatus:[PublicConfig isSpaceString:msgStr andReplace:@"登录失败"]];
-//             [PublicConfig waringInfo:[PublicConfig isSpaceString:msgStr andReplace:@"登录失败"]];
-//         }
-//     }
-//          failure:^(AFHTTPRequestOperation *operation, NSError *error)
-//     {
-//         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-//         //[SVProgressHUD showErrorWithStatus:@"登录请求失败"];
-//         [PublicConfig waringInfo:@"登录请求失败"];
-//     }];
+    NSString *md5Password = [MD5 md5HexDigest:userPswField.text];
+    NSDictionary *parameters = @{@"user.usercode":userAccountField.text,@"user.password":md5Password};
+    
+     NSString *useurl = [NSString stringWithFormat:@"http://%@/userlogin.action",YKbasehost];
+    AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
+    [session GET:useurl
+      parameters:parameters
+        progress:^(NSProgress * _Nonnull downloadProgress){
+            /*数据请求的进度*/
+        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
+     {
+     NSDictionary *responseDic = (NSDictionary *)responseObject;
+         //打印结果 方便查看
+     NSString *responseString = [BaseHelper dictionaryToJson:responseDic];
+     NSLog(@"返回结果字符串 : %@",responseString);
+     BOOL ret = [[responseDic valueForKey:@"ret"] boolValue];
+     if (ret)
+         {
+         NSDictionary *userDic = [responseDic valueForKey:@"user"];
+         if (userDic)
+          {
+             NSString *userId = [BaseHelper isSpaceString: [userDic valueForKey:@"id"] andReplace:@""];
+             if (userId.length>0){
+                 [[NSUserDefaults standardUserDefaults] setValue:userId forKey:@"usercode"];
+                 [[NSUserDefaults standardUserDefaults] setValue:md5Password forKey:@"password"];
+                 [BaseHelper waringInfo:@"登录成功"];
+                 [self.navigationController popViewControllerAnimated:YES];
+             }
+             else{
+                 [BaseHelper waringInfo:@"登录失败"];
+                 }
+         }
+         else{
+               [BaseHelper waringInfo:@"登录失败"];
+             }
+         }
+     }
+         failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
+     {
+     [BaseHelper waringInfo:@"登录失败"];
+         // NSLog(@"%@", [error localizedDescription]);
+     }];
 }
 
 #pragma mark -
@@ -189,13 +175,13 @@
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     if (textField ==userAccountField)
-    {
+        {
         [userPswField becomeFirstResponder];
-    }
+        }
     if (textField.returnKeyType == UIReturnKeyDone)
-    {
+        {
         [self loginButtonClicked:nil];
-    }
+        }
     return YES;
 }
 
@@ -207,17 +193,17 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+        // Dispose of any resources that can be recreated.
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

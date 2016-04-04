@@ -41,4 +41,44 @@
     return isCanUse;
 }
 
+
+    //提示框
++ (void)waringInfo:(NSString *)msgInfo
+{
+    
+    UIAlertView *alert =[[UIAlertView alloc] initWithTitle:@"温馨提示"
+                                                  message:msgInfo
+                                                 delegate:nil
+                                        cancelButtonTitle:@"确定"
+                                        otherButtonTitles:nil,nil];
+    [alert show];
+}
+
+    //字典转化为字符串
++ (NSString*)dictionaryToJson:(NSDictionary *)dic
+{
+    if (dic!=nil)
+        {
+        NSError *parseError = nil;
+        NSData  *jsonData = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:&parseError];
+        return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+        }
+    return @"";
+    
+}
+
+    //字符串转化为字典
++ (NSDictionary *)jsonToDictionary:(NSString *)str
+{
+    if (str!=nil)
+        {
+        NSData *data = [str dataUsingEncoding:NSUTF8StringEncoding];
+        
+        NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+        
+        return dic;
+        }
+    return nil;
+}
+
 @end
