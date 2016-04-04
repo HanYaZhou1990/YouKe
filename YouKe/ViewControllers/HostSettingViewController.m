@@ -44,7 +44,7 @@
     
     _textField = [[UITextField alloc]init];
     _textField.frame = CGRectMake(10, 0, SCREEN_WIDTH - 60, 40);
-    NSString *useTest =  [[NSUserDefaults standardUserDefaults] valueForKey:@"host"];
+    NSString *useTest =  YKbasehost;
     if (useTest.length>0)
     {
         _textField.text = useTest;
@@ -74,7 +74,7 @@
     }
     else
     {
-        [[NSUserDefaults standardUserDefaults] setValue:testStr forKey:@"host"];
+        [[NSUserDefaults standardUserDefaults] setValue:testStr forKey:@"basehost"];
         [self.navigationController popViewControllerAnimated:YES];
     }
 }

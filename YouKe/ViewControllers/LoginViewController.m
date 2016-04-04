@@ -8,6 +8,10 @@
 
 #import "LoginViewController.h"
 #import "WWTextField.h"
+#import "MBProgressHUD.h"
+#import "AFNetworking.h"
+#import "MD5.h"
+
 @interface LoginViewController ()<UITextFieldDelegate>
 {
     WWTextField          *userAccountField;
@@ -96,15 +100,24 @@
         return;
     }
     
-    [self sendLoginData]; //发送登录协议
+    if ([BaseHelper isCanUseHost]==YES)
+    {
+        [self sendLoginData]; //发送登录协议
+    }
+    else
+        {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"服务器地址不能为空,请" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        [alert show];
+        }
+    
 }
 //登录协议
 -(void)sendLoginData
 {
-//    [MBProgressHUD showHUDAddedToExt:self.view showMessage:@"登录中..." animated:YES];
-//    
-//    NSString *useUrl = [NSString stringWithFormat:@"%@%@",BASE_PLAN_URL,trainee_traineeRead_login];
-//    NSString *md5Password = [NSString md5StringFromString:userPswField.text];
+    [MBProgressHUD showHUDAddedToExt:self.view showMessage:@"登录中..." animated:YES];
+    
+//    NSString *useUrl = [NSString stringWithFormat:@"%@%@",[YKbasehost,@""];
+//    NSString *md5Password = [MD5 md5StringFromString:userPswField.text];
 //    
 //    // 取出push的deviceToken
 //    //    NSString *documentDirectorty = NSSearchPathForDirectoriesInDomains(NSDocumentationDirectory, NSUserDomainMask, YES)[0];
