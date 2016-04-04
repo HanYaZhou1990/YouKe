@@ -160,6 +160,18 @@
                 [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
                 NSLog(@"%@", responseObject);
                 [_contentArray addObjectsFromArray:responseObject[@"list"]];
+                [_contentArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                    [session GET:[NSString stringWithFormat:@"http://%@/jsonchannel.action?channel.parentid=%@",YKbasehost,obj[@"id"]]
+                      parameters:nil
+                        progress:^(NSProgress * _Nonnull downloadProgress) {
+                            /*数据请求的进度*/
+                        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+                            NSLog(@"%@", responseObject);
+                        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+                        }];
+                }];
                 [_mainCollectionView reloadData];
             } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                 [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
