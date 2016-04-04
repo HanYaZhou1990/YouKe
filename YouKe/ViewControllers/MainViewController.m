@@ -54,9 +54,11 @@
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
     self.navigationItem.rightBarButtonItem = rightItem;
     
+    _itemsMutableArray = [NSMutableArray array];
+    
     /*导航上中间的活动和群组按钮*/
     _menuView = [[MainMenuView alloc] initWithFrame:CGRectZero];
-    _menuView.titleArray = @[@"视频",@"音频",@"图片",@"课外"];
+//    _menuView.titleArray = @[@"视频",@"音频",@"图片",@"课外"];
     _menuView.backgroundColor = UIColorFromRGB(0xFFFFFF);
     _menuView.selectedItem = [NSIndexPath indexPathForItem:0 inSection:0];
     _menuView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -64,15 +66,7 @@
         if (_menuView.selectedItem.row == indexPath.row) {
             return ;
         }
-        if (indexPath.row == 0) {
-            /*视频*/
-        }else if (indexPath.row == 1){
-            /*音频*/
-        }else if (indexPath.row == 2){
-            /*图片*/
-        }else{
-            /*课外*/
-        }
+        NSLog(@"%@",_itemsMutableArray[indexPath.row][@"id"]);
         CATransition *transition = [CATransition animation];
         transition.type = kCATransitionPush;
         transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
@@ -86,7 +80,7 @@
     [self.view addSubview:_menuView];
     
     
-    _contentArray = @[@"语文",@"历史",@"数学",@"地理",@"英语",@"思想政治"];
+    _contentArray = [NSMutableArray array];
     
     UICollectionViewFlowLayout *flowLayout=[[UICollectionViewFlowLayout alloc] init];
     flowLayout.scrollDirection=UICollectionViewScrollDirectionVertical;
@@ -118,28 +112,86 @@
                                options:1.0
                                metrics:nil
                                views:NSDictionaryOfVariableBindings(_menuView,_mainCollectionView)]];
+    
+    if ([BaseHelper isCanUseHost]==YES)
+        {
+        [MBProgressHUD showHUDAddedToExt:self.view showMessage:@"加载中..." animated:YES];
+        AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
+        session.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", nil];
+        [session GET:[NSString stringWithFormat:@"http://%@/jsonchannel.action",YKbasehost]
+          parameters:nil
+            progress:^(NSProgress * _Nonnull downloadProgress) {
+                /*数据请求的进度*/
+            } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+                [_itemsMutableArray removeAllObjects];
+                [_itemsMutableArray addObjectsFromArray:responseObject[@"list"]];
+                NSMutableArray *titleArray = [NSMutableArray array];
+                [_itemsMutableArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                    if (idx==0) {
+                        [self getDataWithIdString:obj[@"id"]];
+                    }
+                    [titleArray addObject:obj[@"name"]];
+                }];
+                _menuView.titleArray = titleArray;
+                [_menuView.mainTitleCollectionView reloadData];
+            } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+            }];
+        }
+    else
+        {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"服务器地址不能为空,请" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        [alert show];
+        }
+}
 
+- (void)getDataWithIdString:(NSString *)idString{
+    if ([BaseHelper isCanUseHost]==YES)
+        {
+        [MBProgressHUD showHUDAddedToExt:self.view showMessage:@"加载中..." animated:YES];
+        AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
+        session.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", nil];
+        [session GET:[NSString stringWithFormat:@"http://%@/jsonchannel.action?channel.parentid=%@",YKbasehost,idString]
+          parameters:nil
+            progress:^(NSProgress * _Nonnull downloadProgress) {
+                /*数据请求的进度*/
+            } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+                NSLog(@"%@", responseObject);
+                [_contentArray addObjectsFromArray:responseObject[@"list"]];
+                [_mainCollectionView reloadData];
+            } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+            }];
+        }
+    else
+        {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"服务器地址不能为空,请" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        [alert show];
+        }
 }
 
 #pragma mark -
 #pragma mark UICollectionViewDataSource -
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
-    return 5;
+    return [_contentArray count];
 }
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     return [_contentArray count];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
+    /*http://182.92.156.64/jsonchannel.action?channel.parentid=ff8081814d55186d014d555c0dcc0001*/
     if (_menuView.selectedItem.row == 1) {
         MainCollectionImageCell *imageCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"imageCell" forIndexPath:indexPath];
-        imageCell.titleLable.text = _contentArray[indexPath.row];
+        imageCell.titleLable.text = @"222222222";
         imageCell.titleLable.font = [UIFont systemFontOfSize:15.0f];
         return imageCell;
     }else{
         MainCollectionViewCell *collectionViewCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
-        collectionViewCell.titleLable.text = _contentArray[indexPath.row];
+        collectionViewCell.titleLable.text = @"111111111";
         collectionViewCell.titleLable.font = [UIFont systemFontOfSize:15.0f];
             return collectionViewCell;
     }
@@ -149,7 +201,7 @@
     MainCollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"header" forIndexPath:indexPath];
     NSMutableParagraphStyle *style = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
     style.firstLineHeadIndent = 10;//首行缩进
-    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"这是第 %ld 个区",(long)indexPath.section] attributes:@{NSParagraphStyleAttributeName:style}];
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@",_contentArray[indexPath.section][@"name"]] attributes:@{NSParagraphStyleAttributeName:style}];
     [headerView.titleLable setAttributedText:attributedString];
     return headerView;
 }

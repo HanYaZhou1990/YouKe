@@ -13,12 +13,17 @@
 #import "MainMenuView.h"
 #import "MainCollectionImageCell.h"
 #import "CourseListViewController.h"
+#import "AFNetworking.h"
+#import "MBProgressHUD.h"
+#import "PublicSource.h"
 
 /*!首页*/
 @interface MainViewController : HYZViewController<UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic, strong) UICollectionView     *mainCollectionView;
 
-@property (nonatomic, strong) NSArray              *contentArray;
+@property (nonatomic, strong) NSMutableArray       *contentArray;
+
+@property (nonatomic, strong) NSMutableArray       *itemsMutableArray;
 
 @end
