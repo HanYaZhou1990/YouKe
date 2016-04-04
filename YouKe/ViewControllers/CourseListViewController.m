@@ -92,6 +92,9 @@
     /*http://182.92.156.64/web/phoneplay.action?resource.id=8a7ca891501c1ef90150453e06900009*/
     if ([_messageMutableArray[indexPath.row][@"filetype"] integerValue] == 1 ||
         [_messageMutableArray[indexPath.row][@"filetype"] integerValue] == 2) {
+        UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] init];
+        backButtonItem.title = _messageMutableArray[indexPath.row][@"name"];
+        self.navigationItem.backBarButtonItem = backButtonItem;
         WebViewController *webVC = [[WebViewController alloc]init];
         webVC.webUrl = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@/web/phoneplay.action?resource.id=%@",YKbasehost,_messageMutableArray[indexPath.row][@"id"]]];
         webVC.hidesBottomBarWhenPushed = YES;

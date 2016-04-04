@@ -190,6 +190,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     /*http://182.92.156.64/web/newsplay.action?news.id=8a7ca8914e24303e014e61fbc86a0017*/
+    UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] init];
+    backButtonItem.title = _messageMutableArray[indexPath.row][@"title"];
+    self.navigationItem.backBarButtonItem = backButtonItem;
     WebViewController *webVC = [[WebViewController alloc]init];
     webVC.webUrl = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@/web/newsplay.action?news.id=%@",YKbasehost,_messageMutableArray[indexPath.row][@"id"]]];
     webVC.hidesBottomBarWhenPushed = YES;
