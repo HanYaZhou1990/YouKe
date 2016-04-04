@@ -8,6 +8,7 @@
 
 #import "HYZViewController.h"
 #import "AFNetworking.h"
+#import "MD5.h"
 
 @interface RegisterViewController : HYZViewController
 

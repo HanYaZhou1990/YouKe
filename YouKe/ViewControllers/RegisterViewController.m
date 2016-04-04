@@ -106,18 +106,19 @@
 //注册协议
 -(void)sendRegisterData
 {
-    NSDictionary *parameters = @{@"user.usercode":userAccountField,
-                                 @"user.username":userNameField,
-                                 @"user.password":@"",};
+    NSDictionary *parameters = @{@"user.usercode":userAccountField.text,
+                                 @"user.username":userNameField.text,
+                                 @"user.password":[MD5 md5HexDigest:userPswField.text]};
     AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
     [session GET:@"http://182.92.156.64/userregistered.action"
       parameters:parameters
         progress:^(NSProgress * _Nonnull downloadProgress) {
-            
+            /*数据请求的进度*/
         } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-            
+            NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers | NSJSONReadingMutableLeaves error:nil];
+            NSLog(@"%@", dic);
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-            
+            NSLog(@"%@", [error localizedDescription]);
         }];
 }
 
