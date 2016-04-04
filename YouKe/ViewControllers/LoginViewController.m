@@ -118,7 +118,7 @@
     NSString *md5Password = [MD5 md5HexDigest:userPswField.text];
     NSDictionary *parameters = @{@"user.usercode":userAccountField.text,@"user.password":md5Password};
     
-     NSString *useurl = [NSString stringWithFormat:@"http://%@/userlogin.action",YKbasehost];
+    NSString *useurl = [NSString stringWithFormat:@"http://%@/userlogin.action",YKbasehost];
     AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
     session.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", nil];
     [session GET:useurl
@@ -130,33 +130,40 @@
      [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
      NSDictionary *responseDic = (NSDictionary *)responseObject;
          //打印结果 方便查看
-     NSString *responseString = [BaseHelper dictionaryToJson:responseDic];
-     NSLog(@"返回结果字符串 : %@",responseString);
+          NSString *responseString = [BaseHelper dictionaryToJson:responseDic];
+          NSLog(@"返回结果字符串 : %@",responseString);
      BOOL ret = [[responseDic valueForKey:@"ret"] boolValue];
      if (ret)
          {
-         NSDictionary *userDic = [responseDic valueForKey:@"user"];
-         if (userDic)
-          {
-             NSString *userId = [BaseHelper isSpaceString: [userDic valueForKey:@"id"] andReplace:@""];
-             if (userId.length>0){
-                 [[NSUserDefaults standardUserDefaults] setValue:userId forKey:@"usercode"];
-                 [[NSUserDefaults standardUserDefaults] setValue:md5Password forKey:@"password"];
-                 [BaseHelper waringInfo:@"登录成功"];
-                 [self.navigationController popViewControllerAnimated:YES];
-             }
+         NSArray *userArray = [responseDic valueForKey:@"user"];
+         if (![userArray isKindOfClass:[NSNull class]]&&userArray!=nil)
+             {
+             if (userArray.count>0)
+                 {
+                 NSDictionary *userDic = [userArray objectAtIndex:0];
+                 NSString *userId = [BaseHelper isSpaceString: [userDic valueForKey:@"id"] andReplace:@""];
+                  NSString *usercode = [BaseHelper isSpaceString: [userDic valueForKey:@"usercode"] andReplace:@""];
+                 if (userId.length>0){
+                     [[NSUserDefaults standardUserDefaults] setValue:userId forKey:@"userid"];
+                     [[NSUserDefaults standardUserDefaults] setValue:usercode forKey:@"usercode"];
+                     [[NSUserDefaults standardUserDefaults] setValue:md5Password forKey:@"password"];
+                     [BaseHelper waringInfo:@"登录成功"];
+                     [self.navigationController popViewControllerAnimated:YES];
+                 }
+                 else{
+                     [BaseHelper waringInfo:@"登录失败"];
+                 }
+                 }
              else{
                  [BaseHelper waringInfo:@"登录失败"];
-                 }
-         }
-         else{
-               [BaseHelper waringInfo:@"登录失败"];
              }
+             }
+         
          }
      }
          failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
      {
-      [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
      [BaseHelper waringInfo:@"登录失败"];
          // NSLog(@"%@", [error localizedDescription]);
      }];

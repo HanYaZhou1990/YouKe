@@ -42,10 +42,14 @@
     self.navigationController.navigationBarHidden=YES;
     NSString *userId = YKusercode;
     if (userId.length>0){
+        [loginBtn setTitle:YKusercode forState:UIControlStateNormal];
+        loginBtn.userInteractionEnabled=NO;
         if (isLogin==NO){
             isLogin=YES;
             [myTableView reloadData];}}
     else{
+        [loginBtn setTitle:@"点击登录查看更多功能" forState:UIControlStateNormal];
+        loginBtn.userInteractionEnabled=YES;
         if (isLogin==YES){
             isLogin=NO;
             [myTableView reloadData];}}
@@ -64,6 +68,7 @@
     NSString *userId = YKusercode;
     if (userId.length>0){
         isLogin=YES;
+        [loginBtn setTitle:@"点击登录查看更多功能" forState:UIControlStateNormal];
         }
     else{
         isLogin=NO;

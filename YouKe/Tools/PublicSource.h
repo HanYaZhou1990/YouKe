@@ -21,7 +21,7 @@
 #define SCREEN_WIDTH ([UIScreen mainScreen].bounds.size.width) //屏幕宽度
 #define SCREEN_HEIGHT ([UIScreen mainScreen].bounds.size.height) //屏幕高度
 
-#define YKusercode       [[NSUserDefaults standardUserDefaults] valueForKey:@"usercode"]//用户id
+#define YKusercode       [[NSUserDefaults standardUserDefaults] valueForKey:@"usercode"]//用户code
 #define YKpassword       [[NSUserDefaults standardUserDefaults] valueForKey:@"password"]//用户密码
 #define YKbasehost      [[NSUserDefaults standardUserDefaults] valueForKey:@"basehost"]//服务器地址
 
