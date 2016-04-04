@@ -12,6 +12,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    _messageMutableArray = [NSMutableArray array];
         
     _courseTableView = [[UITableView alloc]initWithFrame:CGRectZero style:UITableViewStylePlain];
     [_courseTableView registerClass:[MainNewsCell class] forCellReuseIdentifier:@"cell"];
@@ -31,18 +33,50 @@
                                options:1.0
                                metrics:nil
                                views:NSDictionaryOfVariableBindings(_courseTableView)]];
+    [self getDataWithIdString:_itemIdString];
+}
+
+- (void)getDataWithIdString:(NSString *)idString{
+    /*http://182.92.156.64/jsonlist.action?resource.channelid=ff8081814d55186d014d555dc34e0007*/
+    [_messageMutableArray removeAllObjects];
+    if ([BaseHelper isCanUseHost]==YES)
+        {
+        [MBProgressHUD showHUDAddedToExt:self.view showMessage:@"加载中..." animated:YES];
+        AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
+        session.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", nil];
+        [session GET:[NSString stringWithFormat:@"http://%@/jsonlist.action?resource.channelid=%@",YKbasehost,idString]
+          parameters:nil
+            progress:^(NSProgress * _Nonnull downloadProgress) {
+                /*数据请求的进度*/
+            } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                NSLog(@"%@",responseObject);
+                [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+                [_messageMutableArray addObjectsFromArray:responseObject[@"list"]];
+                [_courseTableView reloadData];
+            } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+            }];
+        }
+    else
+        {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"服务器地址不能为空,请" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        [alert show];
+        }
 }
 
 #pragma mark -
 #pragma mark UITableViewDataSource -
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 3;
+    return [_messageMutableArray count];
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     MainNewsCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
-    cell.titleLable.text = @" 中国邮政吃屁中国邮政吃屁";
-    cell.detailLable.text = @"约3万人受影响滞留上海虹桥火车站 候车厅目前已空出一半】今天下午至晚间，因受到雨雪影响导致浙江桐乡段有列车发生故障，上海虹桥火车站多趟列车晚点致约3万名旅客滞留。晚10点，经过沪杭高铁的列车仍然大多晚点未定。目前，虹桥站候车厅约一半的空间已经空出。";
-    cell.timeLable.text = @"2016-02-02";
+    cell.titleLable.text = [NSString stringWithFormat:@" %@",_messageMutableArray[indexPath.row][@"name"]];
+    cell.detailLable.text = [NSString stringWithFormat:@" %@",_messageMutableArray[indexPath.row][@"remark"]];
+    cell.timeLable.text = [[NSString stringWithFormat:@" %@",_messageMutableArray[indexPath.row][@"createtime"]] substringWithRange:NSMakeRange(0, 11)];
+    [cell.titleImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://%@/%@",YKbasehost,_messageMutableArray[indexPath.row][@"smaillpic"]]]
+                           placeholderImage:[UIImage imageNamed:@"Icon-180.png"]
+                                    options:SDWebImageRetryFailed];
     return cell;
 }
 #pragma mark -
@@ -52,6 +86,17 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    /*filetype*/
+    NSLog(@"%@",_messageMutableArray[indexPath.row][@"filetype"]);
+    /*是视频*/
+    /*http://182.92.156.64/web/phoneplay.action?resource.id=8a7ca891501c1ef90150453e06900009*/
+    if ([_messageMutableArray[indexPath.row][@"filetype"] integerValue] == 1 ||
+        [_messageMutableArray[indexPath.row][@"filetype"] integerValue] == 2) {
+        WebViewController *webVC = [[WebViewController alloc]init];
+        webVC.webUrl = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@/web/phoneplay.action?resource.id=%@",YKbasehost,_messageMutableArray[indexPath.row][@"id"]]];
+        webVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:webVC animated:YES];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

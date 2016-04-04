@@ -27,7 +27,69 @@
     return self;
 }
 - (void)refreshItemClicked:(UIButton *)barItem{
-    NSLog(@"刷新");
+    _menuView.selectedItem = [NSIndexPath indexPathForItem:0 inSection:0];
+    [self getData];
+}
+
+- (void)getData{
+    if ([BaseHelper isCanUseHost]==YES)
+        {
+        /*http://182.92.156.64/jsonchannel.action?channel.parentid=402882ea49da8f830149da9943050002&channel.type=2*/
+        [MBProgressHUD showHUDAddedToExt:self.view showMessage:@"加载中..." animated:YES];
+        AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
+        session.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", nil];
+        [session GET:[NSString stringWithFormat:@"http://%@/jsonchannel.action?channel.parentid=402882ea49da8f830149da9943050002&channel.type=2",YKbasehost]
+          parameters:nil
+            progress:^(NSProgress * _Nonnull downloadProgress) {
+                /*数据请求的进度*/
+            } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+                [_itemsTitleArray removeAllObjects];
+                [_itemsTitleArray addObjectsFromArray:responseObject[@"list"]];
+                NSMutableArray *titleArray = [NSMutableArray array];
+                [_itemsTitleArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                    if (idx==0) {
+                        [self getDataWithIdString:obj[@"id"]];
+                    }
+                    [titleArray addObject:obj[@"name"]];
+                }];
+                _menuView.titleArray = titleArray;
+                [_menuView.mainTitleCollectionView reloadData];
+            } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+            }];
+        }
+    else
+        {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"服务器地址不能为空,请" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        [alert show];
+        }
+}
+- (void)getDataWithIdString:(NSString *)idString{
+    /*http://182.92.156.64/jsonnews.action?news.channelid=402882ea49da8f830149da99794d0003*/
+    if ([BaseHelper isCanUseHost]==YES)
+        {
+        [MBProgressHUD showHUDAddedToExt:self.view showMessage:@"加载中..." animated:YES];
+        AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
+        session.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", nil];
+        [session GET:[NSString stringWithFormat:@"http://%@/jsonnews.action?news.channelid=%@",YKbasehost,idString]
+          parameters:nil
+            progress:^(NSProgress * _Nonnull downloadProgress) {
+                /*数据请求的进度*/
+            } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+                [_messageMutableArray removeAllObjects];
+                [_messageMutableArray addObjectsFromArray:responseObject[@"list"]];
+                [_nesTableView reloadData];
+            } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+            }];
+        }
+    else
+        {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"服务器地址不能为空,请" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        [alert show];
+        }
 }
 
 
@@ -35,6 +97,9 @@
     [super viewDidLoad];
     
     self.automaticallyAdjustsScrollViewInsets = NO;
+    
+    _itemsTitleArray = [NSMutableArray array];
+    _messageMutableArray = [NSMutableArray array];
     
     UIButton *leftButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [leftButton setTitle:@"新闻" forState:UIControlStateNormal];
@@ -54,20 +119,13 @@
     
     /*导航上中间的活动和群组按钮*/
     _menuView = [[MainMenuView alloc] initWithFrame:CGRectZero];
-    _menuView.titleArray = @[@"校内新闻",@"国内新闻",@"教育新闻"];
+//    _menuView.titleArray = @[@"校内新闻",@"国内新闻",@"教育新闻"];
     _menuView.backgroundColor = UIColorFromRGB(0xFFFFFF);
     _menuView.selectedItem = [NSIndexPath indexPathForItem:0 inSection:0];
     _menuView.translatesAutoresizingMaskIntoConstraints = NO;
     [_menuView collectionItemClicked:^(UICollectionView *collectionView, NSIndexPath *indexPath){
         if (_menuView.selectedItem.row == indexPath.row) {
             return ;
-        }
-        if (indexPath.row == 0) {
-            /*校内新闻*/
-        }else if (indexPath.row == 1){
-            /*国内新闻*/
-        }else{
-            /*教育新闻*/
         }
         CATransition *transition = [CATransition animation];
         transition.type = kCATransitionPush;
@@ -78,6 +136,7 @@
         [[self.nesTableView layer] addAnimation:transition forKey:@"UITableViewReloadDataAnimationKey"];
         _menuView.selectedItem = indexPath;
         [_nesTableView reloadData];
+        [self getDataWithIdString:_itemsTitleArray[indexPath.row][@"id"]];
     }];
     [self.view addSubview:_menuView];
     
@@ -104,18 +163,23 @@
                                options:1.0
                                metrics:nil
                                views:NSDictionaryOfVariableBindings(_menuView,_nesTableView)]];
+    
+    [self getData];
 }
 
 #pragma mark -
 #pragma mark UITableViewDataSource -
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 3;
+    return [_messageMutableArray count];
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     MainNewsCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
-    cell.titleLable.text = @" 中国邮政吃屁中国邮政吃屁";
-    cell.detailLable.text = @"约3万人受影响滞留上海虹桥火车站 候车厅目前已空出一半】今天下午至晚间，因受到雨雪影响导致浙江桐乡段有列车发生故障，上海虹桥火车站多趟列车晚点致约3万名旅客滞留。晚10点，经过沪杭高铁的列车仍然大多晚点未定。目前，虹桥站候车厅约一半的空间已经空出。";
-    cell.timeLable.text = @"2016-02-02";
+    cell.titleLable.text = [NSString stringWithFormat:@" %@",_messageMutableArray[indexPath.row][@"title"]];
+    cell.detailLable.text = [NSString stringWithFormat:@" %@",_messageMutableArray[indexPath.row][@"content"]];
+    cell.timeLable.text = [[NSString stringWithFormat:@" %@",_messageMutableArray[indexPath.row][@"createtime"]] substringWithRange:NSMakeRange(0, 11)];
+    [cell.titleImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://%@/%@",YKbasehost,_messageMutableArray[indexPath.row][@"smaillpic"]]]
+                           placeholderImage:[UIImage imageNamed:@"Icon-180.png"]
+                                    options:SDWebImageRetryFailed];
     return cell;
 }
 #pragma mark -
@@ -125,6 +189,11 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    /*http://182.92.156.64/web/newsplay.action?news.id=8a7ca8914e24303e014e61fbc86a0017*/
+    WebViewController *webVC = [[WebViewController alloc]init];
+    webVC.webUrl = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@/web/newsplay.action?news.id=%@",YKbasehost,_messageMutableArray[indexPath.row][@"id"]]];
+    webVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:webVC animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {

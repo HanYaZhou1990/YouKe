@@ -29,7 +29,8 @@
 }
 
 - (void)refreshItemClicked:(UIButton *)barItem{
-    NSLog(@"刷新");
+    _menuView.selectedItem = [NSIndexPath indexPathForItem:0 inSection:0];
+    [self getData];
 }
 
 
@@ -66,7 +67,6 @@
         if (_menuView.selectedItem.row == indexPath.row) {
             return ;
         }
-        NSLog(@"%@",_itemsMutableArray[indexPath.row][@"id"]);
         CATransition *transition = [CATransition animation];
         transition.type = kCATransitionPush;
         transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
@@ -76,6 +76,7 @@
         [[self.mainCollectionView layer] addAnimation:transition forKey:@"UITableViewReloadDataAnimationKey"];
         _menuView.selectedItem = indexPath;
         [_mainCollectionView reloadData];
+        [self getDataWithIdString:_itemsMutableArray[indexPath.row][@"id"]];
     }];
     [self.view addSubview:_menuView];
     
@@ -112,7 +113,10 @@
                                options:1.0
                                metrics:nil
                                views:NSDictionaryOfVariableBindings(_menuView,_mainCollectionView)]];
-    
+    [self getData];
+}
+
+- (void)getData{
     if ([BaseHelper isCanUseHost]==YES)
         {
         [MBProgressHUD showHUDAddedToExt:self.view showMessage:@"加载中..." animated:YES];
@@ -147,6 +151,7 @@
 }
 
 - (void)getDataWithIdString:(NSString *)idString{
+    [_contentArray removeAllObjects];
     if ([BaseHelper isCanUseHost]==YES)
         {
         [MBProgressHUD showHUDAddedToExt:self.view showMessage:@"加载中..." animated:YES];
@@ -157,22 +162,23 @@
             progress:^(NSProgress * _Nonnull downloadProgress) {
                 /*数据请求的进度*/
             } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-                NSLog(@"%@", responseObject);
-                [_contentArray addObjectsFromArray:responseObject[@"list"]];
-                [_contentArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//                [_contentArray addObjectsFromArray:responseObject[@"list"]];
+                NSMutableArray *mutableArray = [NSMutableArray arrayWithArray:responseObject[@"list"]];
+                [mutableArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                    NSMutableDictionary *mutableDictionary = [NSMutableDictionary dictionaryWithDictionary:obj];
                     [session GET:[NSString stringWithFormat:@"http://%@/jsonchannel.action?channel.parentid=%@",YKbasehost,obj[@"id"]]
                       parameters:nil
                         progress:^(NSProgress * _Nonnull downloadProgress) {
                             /*数据请求的进度*/
                         } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                             [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-                            NSLog(@"%@", responseObject);
+                            [mutableDictionary setObject:responseObject forKey:obj[@"id"]];
+                            [_contentArray addObject:mutableDictionary];
+                            [_mainCollectionView reloadData];
                         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                             [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
                         }];
                 }];
-                [_mainCollectionView reloadData];
             } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                 [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
             }];
@@ -191,19 +197,21 @@
     return [_contentArray count];
 }
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return [_contentArray count];
+    NSString *keyString = _contentArray[section][@"id"];
+    return [_contentArray[section][keyString][@"list"] count];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     /*http://182.92.156.64/jsonchannel.action?channel.parentid=ff8081814d55186d014d555c0dcc0001*/
+    NSString *keyString = _contentArray[indexPath.section][@"id"];
     if (_menuView.selectedItem.row == 1) {
         MainCollectionImageCell *imageCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"imageCell" forIndexPath:indexPath];
-        imageCell.titleLable.text = @"222222222";
+        imageCell.titleLable.text = _contentArray[indexPath.section][keyString][@"list"][indexPath.row][@"name"];
         imageCell.titleLable.font = [UIFont systemFontOfSize:15.0f];
         return imageCell;
     }else{
         MainCollectionViewCell *collectionViewCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
-        collectionViewCell.titleLable.text = @"111111111";
+        collectionViewCell.titleLable.text = _contentArray[indexPath.section][keyString][@"list"][indexPath.row][@"name"];
         collectionViewCell.titleLable.font = [UIFont systemFontOfSize:15.0f];
             return collectionViewCell;
     }
@@ -222,11 +230,13 @@
 #pragma mark UICollectionViewDelegate -
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     /* 进页面之前先设置返回按钮 */
+    NSString *keyString = _contentArray[indexPath.section][@"id"];
     UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] init];
-    backButtonItem.title = _contentArray[indexPath.row];
+    backButtonItem.title = _contentArray[indexPath.section][keyString][@"list"][indexPath.row][@"name"];
     self.navigationItem.backBarButtonItem = backButtonItem;
     CourseListViewController *courseViewController = [[CourseListViewController alloc]init];
     courseViewController.hidesBottomBarWhenPushed = YES;
+    courseViewController.itemIdString = _contentArray[indexPath.section][keyString][@"list"][indexPath.row][@"id"];
     [self.navigationController pushViewController:courseViewController animated:YES];
 }
 #pragma mark -

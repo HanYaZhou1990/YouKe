@@ -15,7 +15,6 @@
     if (self) {
         _titleImageView = [[UIImageView alloc]initWithFrame:CGRectZero];
         _titleImageView.translatesAutoresizingMaskIntoConstraints = NO;
-        _titleImageView.backgroundColor = [UIColor blueColor];
         [self.contentView addSubview:_titleImageView];
         
         _titleLable = [[UILabel alloc]initWithFrame:CGRectZero];
@@ -26,6 +25,7 @@
         _timeLable = [[UILabel alloc]initWithFrame:CGRectZero];
         _timeLable.translatesAutoresizingMaskIntoConstraints = NO;
         _timeLable.font = [UIFont systemFontOfSize:12.0f];
+        _timeLable.minimumScaleFactor = 0.6f;
         _timeLable.textAlignment = NSTextAlignmentRight;
         _timeLable.textColor = UIColorFromRGB(0x858585);
         [self.contentView addSubview:_timeLable];
@@ -38,7 +38,7 @@
         [self.contentView addSubview:_detailLable];
         
         [self.contentView addConstraints:[NSLayoutConstraint
-                                        constraintsWithVisualFormat:@"H:|-10-[_titleImageView(==76)]-[_titleLable]-[_timeLable(==74)]-10-|"
+                                        constraintsWithVisualFormat:@"H:|-10-[_titleImageView(==80)]-[_titleLable]-[_timeLable(==74)]-10-|"
                                         options:1.0
                                         metrics:nil
                                          views:NSDictionaryOfVariableBindings(_titleImageView,_titleLable,_timeLable)]];
@@ -48,12 +48,12 @@
                                           metrics:nil
                                           views:NSDictionaryOfVariableBindings(_titleImageView,_detailLable)]];
         [self.contentView addConstraints:[NSLayoutConstraint
-                                          constraintsWithVisualFormat:@"V:|-6-[_titleImageView]-6-|"
+                                          constraintsWithVisualFormat:@"V:|-12-[_titleImageView]-12-|"
                                           options:1.0
                                           metrics:nil
                                           views:NSDictionaryOfVariableBindings(_titleImageView)]];
         [self.contentView addConstraints:[NSLayoutConstraint
-                                          constraintsWithVisualFormat:@"V:|-4-[_titleLable]-[_detailLable(<=64)]"
+                                          constraintsWithVisualFormat:@"V:|-10-[_titleLable]-[_detailLable]|"
                                           options:1.0
                                           metrics:nil
                                           views:NSDictionaryOfVariableBindings(_titleLable,_detailLable)]];
