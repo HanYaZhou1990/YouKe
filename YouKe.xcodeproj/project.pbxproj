@@ -69,6 +69,7 @@
 		2CC976EF1C5F015900D4C1D9 /* YouKeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CC976EE1C5F015900D4C1D9 /* YouKeTests.m */; };
 		2CC976FA1C5F015900D4C1D9 /* YouKeUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CC976F91C5F015900D4C1D9 /* YouKeUITests.m */; };
 		9067A18F1CB263E3003BB7B4 /* BaseHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 9067A18E1CB263E3003BB7B4 /* BaseHelper.m */; };
+		90B0C2EA1CB2963000EEF4F0 /* MainWebcastStruct.m in Sources */ = {isa = PBXBuildFile; fileRef = 90B0C2E91CB2963000EEF4F0 /* MainWebcastStruct.m */; };
 		A8D5F77C1C605459009F6FB8 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A8D5F77B1C605459009F6FB8 /* MainViewController.m */; };
 		A8D5F77F1C60547F009F6FB8 /* MainCollectionImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A8D5F77E1C60547F009F6FB8 /* MainCollectionImageCell.m */; };
 		A8D5F7821C607A3A009F6FB8 /* MainNewsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A8D5F7811C607A3A009F6FB8 /* MainNewsCell.m */; };
@@ -227,6 +228,8 @@
 		2CC976FB1C5F015900D4C1D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9067A18D1CB263E3003BB7B4 /* BaseHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseHelper.h; sourceTree = "<group>"; };
 		9067A18E1CB263E3003BB7B4 /* BaseHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseHelper.m; sourceTree = "<group>"; };
+		90B0C2E81CB2963000EEF4F0 /* MainWebcastStruct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainWebcastStruct.h; sourceTree = "<group>"; };
+		90B0C2E91CB2963000EEF4F0 /* MainWebcastStruct.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainWebcastStruct.m; sourceTree = "<group>"; };
 		A8D5F77A1C605459009F6FB8 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		A8D5F77B1C605459009F6FB8 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		A8D5F77D1C60547F009F6FB8 /* MainCollectionImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainCollectionImageCell.h; sourceTree = "<group>"; };
@@ -466,6 +469,8 @@
 			children = (
 				2C3987B21C5F0E1E00BD64EC /* MainWebcastViewController.h */,
 				2C3987B31C5F0E1E00BD64EC /* MainWebcastViewController.m */,
+				90B0C2E81CB2963000EEF4F0 /* MainWebcastStruct.h */,
+				90B0C2E91CB2963000EEF4F0 /* MainWebcastStruct.m */,
 			);
 			name = MainWebcast;
 			sourceTree = "<group>";
@@ -734,6 +739,7 @@
 				04AAD9B11C604FE6005A0C41 /* UIImageView+AFNetworking.m in Sources */,
 				A8D5F7821C607A3A009F6FB8 /* MainNewsCell.m in Sources */,
 				04AAD9B21C604FE6005A0C41 /* UIProgressView+AFNetworking.m in Sources */,
+				90B0C2EA1CB2963000EEF4F0 /* MainWebcastStruct.m in Sources */,
 				2C3987C71C5F491500BD64EC /* MainCollectionReusableView.m in Sources */,
 				04126BDF1C61D81000245B70 /* MBProgressHUD.m in Sources */,
 				04AAD9B31C604FE6005A0C41 /* UIRefreshControl+AFNetworking.m in Sources */,

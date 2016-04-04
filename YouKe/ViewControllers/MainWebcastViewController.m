@@ -7,9 +7,14 @@
 //
 
 #import "MainWebcastViewController.h"
+#import "MBProgressHUD.h"
+#import "AFNetworking.h"
+#import "MainWebcastStruct.h"
 
 @interface MainWebcastViewController ()
-
+{
+    NSMutableArray  *datasource;
+}
 @end
 
 @implementation MainWebcastViewController
@@ -31,6 +36,8 @@
     
     self.automaticallyAdjustsScrollViewInsets = NO;
     
+    datasource = [[NSMutableArray alloc]init];
+    
     UIButton *leftButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [leftButton setTitle:@"直播" forState:UIControlStateNormal];
     leftButton.bounds = CGRectMake(0, 0, 60, 44);
@@ -46,11 +53,59 @@
     [rightButton addTarget:self action:@selector(refreshItemClicked:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
     self.navigationItem.rightBarButtonItem = rightItem;
+    
+    if ([BaseHelper isCanUseHost]==YES)
+        {
+        [self getUseData]; //发送直播协议
+        }
 }
 
 - (void)refreshItemClicked:(UIButton *)barItem
 {
-    NSLog(@"刷新");
+    if ([BaseHelper isCanUseHost]==YES)
+        {
+        [self getUseData]; //发送直播协议
+        }
+    else
+        {
+        [BaseHelper waringInfo:@"服务器地址为空，请去“设置－服务器设置”中设置服务器地址!"];
+        }
+}
+
+    //获取直播协议
+-(void)getUseData
+{
+    [MBProgressHUD showHUDAddedToExt:self.view showMessage:@"加载中..." animated:YES];
+    
+    NSString *useurl = [NSString stringWithFormat:@"http://%@8099/live/json.php",YKbasehost];
+    AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
+    session.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", nil];
+    [session GET:useurl
+      parameters:nil
+        progress:^(NSProgress * _Nonnull downloadProgress){
+            /*数据请求的进度*/
+        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
+     {
+     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+     NSArray *responseArray = (NSArray *)responseObject;
+         //打印结果 方便查看
+         //NSString *responseString = [BaseHelper dictionaryToJson:responseDic];
+         // NSLog(@"返回结果字符串 : %@",responseString);
+     if (![responseArray isKindOfClass:[NSNull class]]&&responseArray!=nil){
+         if (responseArray.count>0){
+         [datasource removeAllObjects];
+         for (int i=0; i<responseArray.count; i++){
+              NSDictionary *useDic = [responseArray objectAtIndex:i];
+             MainWebcastStruct *webcastStruct = [[MainWebcastStruct alloc]initWithDictionary:useDic];
+             [datasource addObject:webcastStruct];
+         }}}
+     }
+         failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
+     {
+     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+     [BaseHelper waringInfo:@"加载失败"];
+         // NSLog(@"%@", [error localizedDescription]);
+     }];
 }
 
 - (void)didReceiveMemoryWarning {
