@@ -138,6 +138,9 @@
      if (ret){
          [BaseHelper waringInfo:@"注册成功"];
          [self.navigationController popViewControllerAnimated:YES];
+     }else
+         {
+         [BaseHelper waringInfo:responseObject[@"msg"]];
          }
      }
          failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
