@@ -108,6 +108,11 @@
     if (editingStyle == UITableViewCellEditingStyleDelete)
         {
             //本地移除该数据 刷新列表
+        [tableView beginUpdates];
+        [NSObject deleteDataWithTable:@"record" andIndex:indexPath.row];
+        [_messageMutableArray removeObjectAtIndex:indexPath.row];
+        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+        [tableView endUpdates];
         }
 }
 - (NSString*)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
