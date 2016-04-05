@@ -15,7 +15,10 @@
 + (NSString *)documentPath;
 /*!保存数据到某个表中*/
 + (BOOL)save:(NSDictionary *)dataDictionary toTable:(NSString *)tableName;
+/*!获取某个表中的所有数据*/
 + (NSDictionary *)getDataWithTable:(NSString *)tableName;
+/*!删除某个表中的某条数据*/
++ (BOOL)deleteDataWithTable:(NSString *)tableName andIndex:(NSInteger)index;
 /*!判断有没有某个文件*/
 + (BOOL)fileIsExists:(NSString*)tableName;
 

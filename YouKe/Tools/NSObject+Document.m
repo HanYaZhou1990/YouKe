@@ -29,6 +29,12 @@ static NSObject *object = nil;
     return [NSDictionary dictionaryWithContentsOfFile:filePaht];
 }
 
++ (BOOL)deleteDataWithTable:(NSString *)tableName andIndex:(NSInteger)index{
+    NSMutableArray *mutableArray = [self getDataWithTable:tableName][@"message"];
+    [mutableArray removeObjectAtIndex:index];
+    return [self save:@{@"message":mutableArray} toTable:tableName];
+}
+
 + (NSString *)documentPath{
     /*获取Documents文件夹目录,第一个参数是说明获取Doucments文件夹目录，第二个参数说明是在当前应用沙盒中获取，所有应用沙盒目录组成一个数组结构的数据存放*/
     NSArray *docPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
