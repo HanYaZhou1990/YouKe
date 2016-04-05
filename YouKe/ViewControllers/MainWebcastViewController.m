@@ -152,7 +152,7 @@
     MainWebcastStruct *webcastStruct = [datasource objectAtIndex:indexPath.row];
     NSString *playUrl = [NSString stringWithFormat:@"http://%@:8080%@.m3u8",YKbasehost,webcastStruct.name];
         //测试直播地址
-    playUrl  = @"http://devstreaming.apple.com/videos/wwdc/2015/413eflf3lrh1tyo/413/hls_vod_mvp.m3u8";
+        //playUrl  = @"http://devstreaming.apple.com/videos/wwdc/2015/413eflf3lrh1tyo/413/hls_vod_mvp.m3u8";
     [self playVideoWithUrl:[NSURL URLWithString:playUrl]];
 }
 
