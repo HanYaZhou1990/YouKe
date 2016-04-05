@@ -14,7 +14,14 @@
 #import "UIImageView+WebCache.h"
 #import "WebViewController.h"
 #import "NSObject+Document.h"
-@interface MyCollectionViewController ()<UITableViewDataSource,UITableViewDelegate>
+#import "MWPhotoBrowser.h"
+
+@interface MyCollectionViewController ()<UITableViewDataSource,UITableViewDelegate,MWPhotoBrowserDelegate>
+{
+    MWPhotoBrowser *photoBrowser;
+    NSMutableArray *browserPhotos;
+}
+
 @property (nonatomic, strong) UITableView    *courseTableView;
 @property (nonatomic, strong) NSMutableArray *messageMutableArray;
 
@@ -95,6 +102,20 @@
         webVC.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:webVC animated:YES];
     }
+    else if ([[_messageMutableArray[indexPath.row] allKeys] containsObject:@"title"]){
+        UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] init];
+        WebViewController *webVC = [[WebViewController alloc]init];
+        backButtonItem.title = _messageMutableArray[indexPath.row][@"title"];
+        self.navigationItem.backBarButtonItem = backButtonItem;
+        webVC.webUrl = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@/web/newsplay.action?news.id=%@",YKbasehost,_messageMutableArray[indexPath.row][@"id"]]];
+        webVC.contentDictionary = _messageMutableArray[indexPath.row];
+        webVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:webVC animated:YES];
+    }
+    else if ([_messageMutableArray[indexPath.row][@"filetype"] integerValue] == 3)
+        {
+        [self getImageDataWithIndex:indexPath.row];
+        }
 }
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -117,6 +138,69 @@
 {
     return @"删除";
 }
+
+#pragma mark 多图浏览
+-(void)getImageDataWithIndex:(NSInteger)index
+{
+    NSInteger  useIndex = 0;
+    NSString   *imageSelectString = [NSString stringWithFormat:@"http://%@/%@",YKbasehost,_messageMutableArray[index][@"largepic"]];
+    NSMutableArray  *contentImages = [[NSMutableArray alloc]init];
+    for (int i=0; i<_messageMutableArray.count; i++)
+        {
+        if ([_messageMutableArray[i][@"filetype"] integerValue] == 3)
+            {
+            NSString *imageString =  [NSString stringWithFormat:@"http://%@/%@",YKbasehost,_messageMutableArray[i][@"largepic"]];
+            [contentImages addObject:imageString];
+            }
+        }
+    if (contentImages.count>0)
+        {
+        if (browserPhotos)
+            {
+            [browserPhotos removeAllObjects];
+            }
+        else
+            {
+            browserPhotos = [[NSMutableArray alloc]init];
+            }
+        for (int i = 0; i < contentImages.count; i ++)
+            {
+            NSString *urlString = contentImages[i];
+            [browserPhotos addObject:[MWPhoto photoWithURL:[NSURL URLWithString:urlString]]];
+            if ([urlString isEqualToString:imageSelectString])
+                {
+                useIndex = i;
+                }
+            }
+        if (photoBrowser)
+            {
+            photoBrowser = nil;
+            }
+        photoBrowser = [[MWPhotoBrowser alloc] initWithDelegate:self];
+        photoBrowser.displaySelectionButtons = NO;
+        photoBrowser.displayActionButton = NO;
+        [photoBrowser showNextPhotoAnimated:YES];
+        [photoBrowser showPreviousPhotoAnimated:YES];
+        [photoBrowser setCurrentPhotoIndex:useIndex];
+        [self.navigationController pushViewController:photoBrowser animated:YES];
+        }
+}
+
+#pragma mark - MWPhotoBrowerDelegate
+- (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser
+{
+    return browserPhotos.count;
+}
+
+- (id<MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index;
+{
+    if (index < browserPhotos.count)
+        {
+        return [browserPhotos objectAtIndex:index];
+        }
+    return nil;
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

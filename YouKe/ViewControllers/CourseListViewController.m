@@ -1,10 +1,10 @@
-//
-//  CourseListViewController.m
-//  YouKe
-//
-//  Created by 韩亚周 on 16/2/2.
-//  Copyright © 2016年 韩亚周. All rights reserved.
-//
+    //
+    //  CourseListViewController.m
+    //  YouKe
+    //
+    //  Created by 韩亚周 on 16/2/2.
+    //  Copyright © 2016年 韩亚周. All rights reserved.
+    //
 
 #import "CourseListViewController.h"
 
@@ -15,7 +15,7 @@
     [super viewDidLoad];
     
     _messageMutableArray = [NSMutableArray array];
-        
+    
     _courseTableView = [[UITableView alloc]initWithFrame:CGRectZero style:UITableViewStylePlain];
     [_courseTableView registerClass:[MainNewsCell class] forCellReuseIdentifier:@"cell"];
     _courseTableView.dataSource = self;
@@ -59,7 +59,7 @@
         }
     else
         {
-         [BaseHelper waringInfo:@"服务器地址为空，请去“设置－服务器设置”中设置服务器地址!"];
+        [BaseHelper waringInfo:@"服务器地址为空，请去“设置－服务器设置”中设置服务器地址!"];
         }
 }
 
@@ -112,29 +112,33 @@
 -(void)getImageDataWithIndex:(NSInteger)index
 {
     NSInteger  useIndex = 0;
-    NSString   *imageSelectString = [NSString stringWithFormat:@"http://%@/%@",YKbasehost,_messageMutableArray[index][@"smaillpic"]];
+    NSString   *imageSelectString = [NSString stringWithFormat:@"http://%@/%@",YKbasehost,_messageMutableArray[index][@"largepic"]];
     NSMutableArray  *contentImages = [[NSMutableArray alloc]init];
     for (int i=0; i<_messageMutableArray.count; i++)
-    {
-     if ([_messageMutableArray[i][@"filetype"] integerValue] == 3)
         {
-        NSString *imageString =  [NSString stringWithFormat:@"http://%@/%@",YKbasehost,_messageMutableArray[i][@"smaillpic"]];
-        [contentImages addObject:imageString];
+        if ([_messageMutableArray[i][@"filetype"] integerValue] == 3)
+            {
+            NSString *imageString =  [NSString stringWithFormat:@"http://%@/%@",YKbasehost,_messageMutableArray[i][@"largepic"]];
+            [contentImages addObject:imageString];
+            }
         }
-    }
     if (contentImages.count>0)
         {
         if (browserPhotos)
             {
             [browserPhotos removeAllObjects];
             }
+        else
+            {
+            browserPhotos = [[NSMutableArray alloc]init];
+            }
         for (int i = 0; i < contentImages.count; i ++)
             {
             NSString *urlString = contentImages[i];
             [browserPhotos addObject:[MWPhoto photoWithURL:[NSURL URLWithString:urlString]]];
-                if ([urlString isEqualToString:imageSelectString])
+            if ([urlString isEqualToString:imageSelectString])
                 {
-                    useIndex = i;
+                useIndex = i;
                 }
             }
         if (photoBrowser)
