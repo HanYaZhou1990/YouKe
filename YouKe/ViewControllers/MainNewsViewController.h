@@ -13,6 +13,7 @@
 #import "AFNetworking.h"
 #import "UIImageView+WebCache.h"
 #import "WebViewController.h"
+#import "NSObject+Document.h"
 
 /*!新闻*/
 @interface MainNewsViewController : HYZViewController<UITableViewDataSource,UITableViewDelegate>

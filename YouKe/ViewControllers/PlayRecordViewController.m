@@ -66,12 +66,22 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     MainNewsCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
-    cell.titleLable.text = [NSString stringWithFormat:@" %@",_messageMutableArray[indexPath.row][@"name"]];
-    cell.detailLable.text = [NSString stringWithFormat:@" %@",_messageMutableArray[indexPath.row][@"remark"]];
-    cell.timeLable.text = [[NSString stringWithFormat:@" %@",_messageMutableArray[indexPath.row][@"createtime"]] substringWithRange:NSMakeRange(0, 11)];
-    [cell.titleImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://%@/%@",YKbasehost,_messageMutableArray[indexPath.row][@"smaillpic"]]]
-                           placeholderImage:[UIImage imageNamed:@"Icon-180.png"]
-                                    options:SDWebImageRetryFailed];
+    if ([[_messageMutableArray[indexPath.row] allKeys] containsObject:@"title"]) {
+        cell.titleLable.text = [NSString stringWithFormat:@" %@",_messageMutableArray[indexPath.row][@"title"]];
+        cell.detailLable.text = [NSString stringWithFormat:@" %@",_messageMutableArray[indexPath.row][@"content"]];
+        cell.timeLable.text = [[NSString stringWithFormat:@" %@",_messageMutableArray[indexPath.row][@"createtime"]] substringWithRange:NSMakeRange(0, 11)];
+        [cell.titleImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://%@/%@",YKbasehost,_messageMutableArray[indexPath.row][@"smaillpic"]]]
+                               placeholderImage:[UIImage imageNamed:@"Icon-180.png"]
+                                        options:SDWebImageRetryFailed];
+    }else{
+        cell.titleLable.text = [NSString stringWithFormat:@" %@",_messageMutableArray[indexPath.row][@"name"]];
+        cell.detailLable.text = [NSString stringWithFormat:@" %@",_messageMutableArray[indexPath.row][@"remark"]];
+        cell.timeLable.text = [[NSString stringWithFormat:@" %@",_messageMutableArray[indexPath.row][@"createtime"]] substringWithRange:NSMakeRange(0, 11)];
+        [cell.titleImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://%@/%@",YKbasehost,_messageMutableArray[indexPath.row][@"smaillpic"]]]
+                               placeholderImage:[UIImage imageNamed:@"Icon-180.png"]
+                                        options:SDWebImageRetryFailed];
+
+    }
     return cell;
 }
 #pragma mark -
@@ -84,18 +94,29 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     /*filetype*/
-    NSLog(@"%@",_messageMutableArray[indexPath.row][@"filetype"]);
     /*是视频*/
     /*http://182.92.156.64/web/phoneplay.action?resource.id=8a7ca891501c1ef90150453e06900009*/
     if ([_messageMutableArray[indexPath.row][@"filetype"] integerValue] == 1 ||
         [_messageMutableArray[indexPath.row][@"filetype"] integerValue] == 2) {
         UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] init];
+        WebViewController *webVC = [[WebViewController alloc]init];
         backButtonItem.title = _messageMutableArray[indexPath.row][@"name"];
         self.navigationItem.backBarButtonItem = backButtonItem;
-        WebViewController *webVC = [[WebViewController alloc]init];
         webVC.webUrl = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@/web/phoneplay.action?resource.id=%@",YKbasehost,_messageMutableArray[indexPath.row][@"id"]]];
+        webVC.contentDictionary = _messageMutableArray[indexPath.row];
         webVC.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:webVC animated:YES];
+    }else if ([[_messageMutableArray[indexPath.row] allKeys] containsObject:@"title"]){
+        UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] init];
+        WebViewController *webVC = [[WebViewController alloc]init];
+        backButtonItem.title = _messageMutableArray[indexPath.row][@"title"];
+        self.navigationItem.backBarButtonItem = backButtonItem;
+        webVC.webUrl = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@/web/newsplay.action?news.id=%@",YKbasehost,_messageMutableArray[indexPath.row][@"id"]]];
+        webVC.contentDictionary = _messageMutableArray[indexPath.row];
+        webVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:webVC animated:YES];
+    }else{
+        
     }
 }
 

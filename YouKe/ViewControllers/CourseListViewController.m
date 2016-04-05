@@ -97,6 +97,7 @@
         self.navigationItem.backBarButtonItem = backButtonItem;
         WebViewController *webVC = [[WebViewController alloc]init];
         webVC.webUrl = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@/web/phoneplay.action?resource.id=%@",YKbasehost,_messageMutableArray[indexPath.row][@"id"]]];
+        webVC.contentDictionary = _messageMutableArray[indexPath.row];
         webVC.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:webVC animated:YES];
     }
