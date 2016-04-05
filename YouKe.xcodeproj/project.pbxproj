@@ -74,6 +74,7 @@
 		A8D5F77F1C60547F009F6FB8 /* MainCollectionImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A8D5F77E1C60547F009F6FB8 /* MainCollectionImageCell.m */; };
 		A8D5F7821C607A3A009F6FB8 /* MainNewsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A8D5F7811C607A3A009F6FB8 /* MainNewsCell.m */; };
 		A8D5F7851C6084DA009F6FB8 /* CourseListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A8D5F7841C6084DA009F6FB8 /* CourseListViewController.m */; };
+		CF9EA6D11CB3DDD70091300B /* NSObject+Document.m in Sources */ = {isa = PBXBuildFile; fileRef = CF9EA6D01CB3DDD70091300B /* NSObject+Document.m */; };
 		CFD866121CB2579C00D3F1E8 /* MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = CFD866111CB2579C00D3F1E8 /* MD5.m */; };
 		CFD866541CB2AEBD00D3F1E8 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFD866531CB2AEBD00D3F1E8 /* WebViewController.m */; };
 		CFF9A9B91C5F85410072FBA8 /* MainMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF9A9B81C5F85410072FBA8 /* MainMenuView.m */; };
@@ -239,6 +240,8 @@
 		A8D5F7811C607A3A009F6FB8 /* MainNewsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainNewsCell.m; sourceTree = "<group>"; };
 		A8D5F7831C6084DA009F6FB8 /* CourseListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourseListViewController.h; sourceTree = "<group>"; };
 		A8D5F7841C6084DA009F6FB8 /* CourseListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourseListViewController.m; sourceTree = "<group>"; };
+		CF9EA6CF1CB3DDD70091300B /* NSObject+Document.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Document.h"; sourceTree = "<group>"; };
+		CF9EA6D01CB3DDD70091300B /* NSObject+Document.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Document.m"; sourceTree = "<group>"; };
 		CFD866101CB2579C00D3F1E8 /* MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MD5.h; sourceTree = "<group>"; };
 		CFD866111CB2579C00D3F1E8 /* MD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MD5.m; sourceTree = "<group>"; };
 		CFD866521CB2AEBD00D3F1E8 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
@@ -442,6 +445,8 @@
 				CFD866111CB2579C00D3F1E8 /* MD5.m */,
 				9067A18D1CB263E3003BB7B4 /* BaseHelper.h */,
 				9067A18E1CB263E3003BB7B4 /* BaseHelper.m */,
+				CF9EA6CF1CB3DDD70091300B /* NSObject+Document.h */,
+				CF9EA6D01CB3DDD70091300B /* NSObject+Document.m */,
 				2CC976E01C5F015900D4C1D9 /* Assets.xcassets */,
 			);
 			path = Tools;
@@ -749,6 +754,7 @@
 				2C3987C71C5F491500BD64EC /* MainCollectionReusableView.m in Sources */,
 				04126BDF1C61D81000245B70 /* MBProgressHUD.m in Sources */,
 				04AAD9B31C604FE6005A0C41 /* UIRefreshControl+AFNetworking.m in Sources */,
+				CF9EA6D11CB3DDD70091300B /* NSObject+Document.m in Sources */,
 				04AAD9AA1C604FE6005A0C41 /* AFNetworkReachabilityManager.m in Sources */,
 				2CC976D91C5F015900D4C1D9 /* AppDelegate.m in Sources */,
 				04126BF71C61D81000245B70 /* UIView+WebCacheOperation.m in Sources */,
