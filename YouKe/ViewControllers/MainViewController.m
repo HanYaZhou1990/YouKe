@@ -161,22 +161,36 @@
             progress:^(NSProgress * _Nonnull downloadProgress) {
                 /*数据请求的进度*/
             } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-//                [_contentArray addObjectsFromArray:responseObject[@"list"]];
                 NSMutableArray *mutableArray = [NSMutableArray arrayWithArray:responseObject[@"list"]];
                 [mutableArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                     NSMutableDictionary *mutableDictionary = [NSMutableDictionary dictionaryWithDictionary:obj];
-                    [session GET:[NSString stringWithFormat:@"http://%@/jsonchannel.action?channel.parentid=%@",YKbasehost,obj[@"id"]]
-                      parameters:nil
-                        progress:^(NSProgress * _Nonnull downloadProgress) {
-                            /*数据请求的进度*/
-                        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-                            [mutableDictionary setObject:responseObject forKey:obj[@"id"]];
-                            [_contentArray addObject:mutableDictionary];
-                            [_mainCollectionView reloadData];
-                        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-                        }];
+                    if ([mutableDictionary[@"leaf"] integerValue] == 0) {
+                        [session GET:[NSString stringWithFormat:@"http://%@/jsonlist.action?resource.channelid=%@",YKbasehost,obj[@"id"]]
+                          parameters:nil
+                            progress:^(NSProgress * _Nonnull downloadProgress) {
+                                /*数据请求的进度*/
+                            } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                                [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+                                [mutableDictionary setObject:responseObject forKey:obj[@"id"]];
+                                [_contentArray addObject:mutableDictionary];
+                                [_mainCollectionView reloadData];
+                            } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                                [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+                            }];
+                    }else{
+                        [session GET:[NSString stringWithFormat:@"http://%@/jsonchannel.action?channel.parentid=%@",YKbasehost,obj[@"id"]]
+                          parameters:nil
+                            progress:^(NSProgress * _Nonnull downloadProgress) {
+                                /*数据请求的进度*/
+                            } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                                [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+                                [mutableDictionary setObject:responseObject forKey:obj[@"id"]];
+                                [_contentArray addObject:mutableDictionary];
+                                [_mainCollectionView reloadData];
+                            } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                                [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+                            }];
+                    }
                 }];
             } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                 [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
@@ -206,6 +220,9 @@
         MainCollectionImageCell *imageCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"imageCell" forIndexPath:indexPath];
         imageCell.titleLable.text = _contentArray[indexPath.section][keyString][@"list"][indexPath.row][@"name"];
         imageCell.titleLable.font = [UIFont systemFontOfSize:15.0f];
+        [imageCell.titleImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://%@/%@",YKbasehost,_contentArray[indexPath.section][keyString][@"list"][indexPath.row][@"smaillpic"]]]
+                               placeholderImage:[UIImage imageNamed:@"Icon-180.png"]
+                                        options:SDWebImageRetryFailed];
         return imageCell;
     }else{
         MainCollectionViewCell *collectionViewCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
@@ -229,13 +246,29 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     /* 进页面之前先设置返回按钮 */
     NSString *keyString = _contentArray[indexPath.section][@"id"];
-    UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] init];
-    backButtonItem.title = _contentArray[indexPath.section][keyString][@"list"][indexPath.row][@"name"];
-    self.navigationItem.backBarButtonItem = backButtonItem;
-    CourseListViewController *courseViewController = [[CourseListViewController alloc]init];
-    courseViewController.hidesBottomBarWhenPushed = YES;
-    courseViewController.itemIdString = _contentArray[indexPath.section][keyString][@"list"][indexPath.row][@"id"];
-    [self.navigationController pushViewController:courseViewController animated:YES];
+    NSDictionary *dictionary = _contentArray[indexPath.section][keyString][@"list"][indexPath.row];
+    if ([_contentArray[indexPath.section][@"leaf"] integerValue] == 0) {
+        NSMutableArray *dataMuableArray = [NSObject fileIsExists:@"record"]?[NSMutableArray arrayWithArray:[NSObject getDataWithTable:@"record"][@"message"]]:[NSMutableArray array];
+        [[dataMuableArray firstObject][@"id"] isEqualToString:dictionary[@"id"]]?:[dataMuableArray insertObject:dictionary atIndex:0];
+        [NSObject save:@{@"message":dataMuableArray} toTable:@"record"];
+       
+        UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] init];
+        backButtonItem.title = [dictionary[@"name"] length]>6?@"详情":dictionary[@"name"];
+        self.navigationItem.backBarButtonItem = backButtonItem;
+        WebViewController *webVC = [[WebViewController alloc]init];
+        webVC.webUrl = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@/web/phoneplay.action?resource.id=%@",YKbasehost,dictionary[@"id"]]];
+        webVC.contentDictionary = dictionary;
+        webVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:webVC animated:YES];
+    }else{
+        UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] init];
+        backButtonItem.title = _contentArray[indexPath.section][keyString][@"list"][indexPath.row][@"name"];
+        self.navigationItem.backBarButtonItem = backButtonItem;
+        CourseListViewController *courseViewController = [[CourseListViewController alloc]init];
+        courseViewController.hidesBottomBarWhenPushed = YES;
+        courseViewController.itemIdString = _contentArray[indexPath.section][keyString][@"list"][indexPath.row][@"id"];
+        [self.navigationController pushViewController:courseViewController animated:YES];
+    }
 }
 #pragma mark -
 #pragma mark UICollectionViewDelegateFlowLayout -

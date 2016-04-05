@@ -16,6 +16,7 @@
 #import "AFNetworking.h"
 #import "MBProgressHUD.h"
 #import "PublicSource.h"
+#import "UIImageView+WebCache.h"
 
 /*!首页*/
 @interface MainViewController : HYZViewController<UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout>

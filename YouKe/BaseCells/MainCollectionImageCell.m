@@ -16,7 +16,6 @@
         
         _titleImageView = [[UIImageView alloc]initWithFrame:CGRectZero];
         _titleImageView.translatesAutoresizingMaskIntoConstraints = NO;
-        _titleImageView.backgroundColor = [UIColor redColor];
         [self addSubview:_titleImageView];
         
         self.backgroundColor = UIColorFromRGB(0xF5F5F5);
