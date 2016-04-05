@@ -13,6 +13,7 @@
 #import "PublicSource.h"
 #import "UIImageView+WebCache.h"
 #import "WebViewController.h"
+#import "NSObject+Document.h"
 @interface MyCollectionViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic, strong) UITableView    *courseTableView;
 @property (nonatomic, strong) NSMutableArray *messageMutableArray;
@@ -50,6 +51,8 @@
 - (void)getUseData
 {
         //从数据库中获取收藏记录
+    _messageMutableArray = [NSMutableArray arrayWithArray:[NSObject getDataWithTable:@"record"][@"message"]];
+    [_courseTableView reloadData];
 }
 
 #pragma mark -
