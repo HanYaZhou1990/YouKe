@@ -85,9 +85,10 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     /*filetype*/
-    NSLog(@"%@",_messageMutableArray[indexPath.row]);
-
-    [NSObject save:_messageMutableArray[indexPath.row] toTable:@"record"];
+    NSMutableArray *dataMuableArray = [NSObject fileIsExists:@"record"]?[NSMutableArray arrayWithArray:[NSObject getDataWithTable:@"record"][@"message"]]:[NSMutableArray array];
+    [[dataMuableArray lastObject] isEqualToDictionary:_messageMutableArray[indexPath.row]]?:[dataMuableArray addObject:_messageMutableArray[indexPath.row]];
+    [NSObject save:@{@"message":dataMuableArray} toTable:@"record"];
+    NSLog(@"%@",dataMuableArray);
     /*是视频*/
     /*http://182.92.156.64/web/phoneplay.action?resource.id=8a7ca891501c1ef90150453e06900009*/
     if ([_messageMutableArray[indexPath.row][@"filetype"] integerValue] == 1 ||

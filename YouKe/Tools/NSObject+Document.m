@@ -24,6 +24,10 @@ static NSObject *object = nil;
     NSString *filePaht = [[self documentPath] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.plist",tableName]];
     return [dataDictionary writeToFile:filePaht atomically:YES];
 }
++ (NSDictionary *)getDataWithTable:(NSString *)tableName{
+    NSString *filePaht = [[self documentPath] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.plist",tableName]];
+    return [NSDictionary dictionaryWithContentsOfFile:filePaht];
+}
 
 + (NSString *)documentPath{
     /*获取Documents文件夹目录,第一个参数是说明获取Doucments文件夹目录，第二个参数说明是在当前应用沙盒中获取，所有应用沙盒目录组成一个数组结构的数据存放*/
