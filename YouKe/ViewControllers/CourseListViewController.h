@@ -14,10 +14,14 @@
 #import "UIImageView+WebCache.h"
 #import "WebViewController.h"
 #import "NSObject+Document.h"
+#import "MWPhotoBrowser.h"
 
 /*!课程列表页面*/
-@interface CourseListViewController : HYZViewController<UITableViewDataSource,UITableViewDelegate>
-
+@interface CourseListViewController : HYZViewController<UITableViewDataSource,UITableViewDelegate,MWPhotoBrowserDelegate>
+{
+    MWPhotoBrowser *photoBrowser;
+    NSMutableArray *browserPhotos;
+}
 @property (nonatomic, strong) UITableView    *courseTableView;
 /*!加载列表需要的id*/
 @property (nonatomic, strong) NSString       *itemIdString;

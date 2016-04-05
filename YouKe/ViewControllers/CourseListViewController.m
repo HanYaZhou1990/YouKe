@@ -8,6 +8,7 @@
 
 #import "CourseListViewController.h"
 
+
 @implementation CourseListViewController
 
 - (void)viewDidLoad {
@@ -101,6 +102,68 @@
         webVC.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:webVC animated:YES];
     }
+    else if ([_messageMutableArray[indexPath.row][@"filetype"] integerValue] == 3)
+        {
+        [self getImageDataWithIndex:indexPath.row];
+        }
+}
+
+#pragma mark 多图浏览
+-(void)getImageDataWithIndex:(NSInteger)index
+{
+    NSInteger  useIndex = 0;
+    NSString   *imageSelectString = [NSString stringWithFormat:@"http://%@/%@",YKbasehost,_messageMutableArray[index][@"smaillpic"]];
+    NSMutableArray  *contentImages = [[NSMutableArray alloc]init];
+    for (int i=0; i<_messageMutableArray.count; i++)
+    {
+     if ([_messageMutableArray[i][@"filetype"] integerValue] == 3)
+        {
+        NSString *imageString =  [NSString stringWithFormat:@"http://%@/%@",YKbasehost,_messageMutableArray[i][@"smaillpic"]];
+        [contentImages addObject:imageString];
+        }
+    }
+    if (contentImages.count>0)
+        {
+        if (browserPhotos)
+            {
+            [browserPhotos removeAllObjects];
+            }
+        for (int i = 0; i < contentImages.count; i ++)
+            {
+            NSString *urlString = contentImages[i];
+            [browserPhotos addObject:[MWPhoto photoWithURL:[NSURL URLWithString:urlString]]];
+                if ([urlString isEqualToString:imageSelectString])
+                {
+                    useIndex = i;
+                }
+            }
+        if (photoBrowser)
+            {
+            photoBrowser = nil;
+            }
+        photoBrowser = [[MWPhotoBrowser alloc] initWithDelegate:self];
+        photoBrowser.displaySelectionButtons = NO;
+        photoBrowser.displayActionButton = NO;
+        [photoBrowser showNextPhotoAnimated:YES];
+        [photoBrowser showPreviousPhotoAnimated:YES];
+        [photoBrowser setCurrentPhotoIndex:useIndex];
+        [self.navigationController pushViewController:photoBrowser animated:YES];
+        }
+}
+
+#pragma mark - MWPhotoBrowerDelegate
+- (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser
+{
+    return browserPhotos.count;
+}
+
+- (id<MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index;
+{
+    if (index < browserPhotos.count)
+        {
+        return [browserPhotos objectAtIndex:index];
+        }
+    return nil;
 }
 
 - (void)didReceiveMemoryWarning {
