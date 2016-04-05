@@ -194,7 +194,7 @@
     [NSObject save:@{@"message":dataMuableArray} toTable:@"record"];
     
     UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] init];
-    backButtonItem.title = _messageMutableArray[indexPath.row][@"title"];
+    backButtonItem.title = [_messageMutableArray[indexPath.row][@"title"] length]>6?@"详情":_messageMutableArray[indexPath.row][@"title"];
     self.navigationItem.backBarButtonItem = backButtonItem;
     WebViewController *webVC = [[WebViewController alloc]init];
     webVC.webUrl = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@/web/newsplay.action?news.id=%@",YKbasehost,_messageMutableArray[indexPath.row][@"id"]]];

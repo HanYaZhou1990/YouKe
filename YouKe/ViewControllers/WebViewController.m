@@ -12,12 +12,40 @@
 
 @property (nonatomic, strong) UIWebView       *webView;
 
+@property (nonatomic, strong)UIBarButtonItem  *collectButtonItem;
+
 @end
 
 @implementation WebViewController
 
+- (void)collectButtonItemClicked:(UIBarButtonItem *)item {
+    NSMutableArray *dataMuableArray = [NSObject fileIsExists:@"collect"]?[NSMutableArray arrayWithArray:[NSObject getDataWithTable:@"collect"][@"message"]]:[NSMutableArray array];
+    [dataMuableArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([obj isEqualToDictionary:_contentDictionary]) {
+            *stop = YES;
+        }else{
+            [dataMuableArray insertObject:_contentDictionary atIndex:0];
+        }
+    }];
+    [NSObject save:@{@"message":dataMuableArray} toTable:@"collect"];
+    self.navigationItem.rightBarButtonItem = nil;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    if (!_unNeedCollectItem) {
+        NSArray *messageArray = [NSObject getDataWithTable:@"collect"][@"message"];
+        [messageArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            if ([obj isEqualToDictionary:_contentDictionary]) {
+                self.navigationItem.rightBarButtonItem = nil;
+                *stop = YES;
+            }else{
+                _collectButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"收藏" style:UIBarButtonItemStylePlain target:self action:@selector(collectButtonItemClicked:)];
+                self.navigationItem.rightBarButtonItem = _collectButtonItem;
+            }
+        }];
+    }
     
     _webView = [[UIWebView alloc] initWithFrame:CGRectZero];
     _webView.translatesAutoresizingMaskIntoConstraints = NO;
