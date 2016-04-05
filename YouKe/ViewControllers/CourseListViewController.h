@@ -13,6 +13,7 @@
 #import "PublicSource.h"
 #import "UIImageView+WebCache.h"
 #import "WebViewController.h"
+#import "NSObject+Document.h"
 
 /*!课程列表页面*/
 @interface CourseListViewController : HYZViewController<UITableViewDataSource,UITableViewDelegate>

@@ -19,11 +19,10 @@ static NSObject *object = nil;
     
     return object;
 }
-+ (BOOL)saveData2Table:(NSString *)tableName
++ (BOOL)save:(NSDictionary *)dataDictionary toTable:(NSString *)tableName
 {
     NSString *filePaht = [[self documentPath] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.plist",tableName]];
-    NSArray *array = [NSArray arrayWithObjects:@"Title",@"Contents", nil];
-    return [array writeToFile:filePaht atomically:YES];
+    return [dataDictionary writeToFile:filePaht atomically:YES];
 }
 
 + (NSString *)documentPath{
@@ -31,6 +30,11 @@ static NSObject *object = nil;
     NSArray *docPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
     NSString *documentsPath = [docPath objectAtIndex:0];
     return documentsPath;
+}
+
++(BOOL)fileIsExists:(NSString*)tableName{
+    NSString *filePaht = [[self documentPath] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.plist",tableName]];
+    return [[NSFileManager defaultManager]fileExistsAtPath:filePaht]?YES:NO;
 }
 
 @end

@@ -49,7 +49,6 @@
             progress:^(NSProgress * _Nonnull downloadProgress) {
                 /*数据请求的进度*/
             } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                NSLog(@"%@",responseObject);
                 [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
                 [_messageMutableArray addObjectsFromArray:responseObject[@"list"]];
                 [_courseTableView reloadData];
@@ -86,7 +85,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     /*filetype*/
-    NSLog(@"%@",_messageMutableArray[indexPath.row][@"filetype"]);
+    NSLog(@"%@",_messageMutableArray[indexPath.row]);
+
+    [NSObject save:_messageMutableArray[indexPath.row] toTable:@"record"];
     /*是视频*/
     /*http://182.92.156.64/web/phoneplay.action?resource.id=8a7ca891501c1ef90150453e06900009*/
     if ([_messageMutableArray[indexPath.row][@"filetype"] integerValue] == 1 ||

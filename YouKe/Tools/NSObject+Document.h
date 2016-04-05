@@ -13,6 +13,9 @@
 + (NSObject *)defaultLibrary;
 /*!沙盒路径*/
 + (NSString *)documentPath;
-+ (BOOL)saveData2Table:(NSString *)tableName;
+/*!保存数据到某个表中*/
++ (BOOL)save:(NSDictionary *)dataDictionary toTable:(NSString *)tableName;
+/*!判断有没有某个文件*/
++ (BOOL)fileIsExists:(NSString*)tableName;
 
 @end
