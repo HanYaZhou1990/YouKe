@@ -95,7 +95,7 @@
     if ([_messageMutableArray[indexPath.row][@"filetype"] integerValue] == 1 ||
         [_messageMutableArray[indexPath.row][@"filetype"] integerValue] == 2) {
         UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] init];
-        backButtonItem.title = _messageMutableArray[indexPath.row][@"name"];
+        backButtonItem.title = [_messageMutableArray[indexPath.row][@"name"] length]>6?@"详情":_messageMutableArray[indexPath.row][@"name"];
         self.navigationItem.backBarButtonItem = backButtonItem;
         WebViewController *webVC = [[WebViewController alloc]init];
         webVC.webUrl = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@/web/phoneplay.action?resource.id=%@",YKbasehost,_messageMutableArray[indexPath.row][@"id"]]];
@@ -105,7 +105,7 @@
     else if ([[_messageMutableArray[indexPath.row] allKeys] containsObject:@"title"]){
         UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] init];
         WebViewController *webVC = [[WebViewController alloc]init];
-        backButtonItem.title = _messageMutableArray[indexPath.row][@"title"];
+        backButtonItem.title = [_messageMutableArray[indexPath.row][@"title"] length]>6?@"详情":_messageMutableArray[indexPath.row][@"title"];
         self.navigationItem.backBarButtonItem = backButtonItem;
         webVC.webUrl = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@/web/newsplay.action?news.id=%@",YKbasehost,_messageMutableArray[indexPath.row][@"id"]]];
         webVC.contentDictionary = _messageMutableArray[indexPath.row];

@@ -87,7 +87,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     /*filetype*/
     NSMutableArray *dataMuableArray = [NSObject fileIsExists:@"record"]?[NSMutableArray arrayWithArray:[NSObject getDataWithTable:@"record"][@"message"]]:[NSMutableArray array];
-    [[dataMuableArray firstObject] isEqualToDictionary:_messageMutableArray[indexPath.row]]?:[dataMuableArray insertObject:_messageMutableArray[indexPath.row] atIndex:0];
+    [[dataMuableArray firstObject][@"id"] isEqualToString:_messageMutableArray[indexPath.row][@"id"]]?:[dataMuableArray insertObject:_messageMutableArray[indexPath.row] atIndex:0];
     [NSObject save:@{@"message":dataMuableArray} toTable:@"record"];
     /*是视频*/
     /*http://182.92.156.64/web/phoneplay.action?resource.id=8a7ca891501c1ef90150453e06900009*/

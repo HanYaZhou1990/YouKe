@@ -20,13 +20,20 @@
 
 - (void)collectButtonItemClicked:(UIBarButtonItem *)item {
     NSMutableArray *dataMuableArray = [NSObject fileIsExists:@"collect"]?[NSMutableArray arrayWithArray:[NSObject getDataWithTable:@"collect"][@"message"]]:[NSMutableArray array];
-    [dataMuableArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        if ([obj isEqualToDictionary:_contentDictionary]) {
-            *stop = YES;
-        }else{
-            [dataMuableArray insertObject:_contentDictionary atIndex:0];
-        }
-    }];
+    if ([dataMuableArray count] == 0) {
+        [dataMuableArray insertObject:_contentDictionary atIndex:0];
+    }else{
+        __block BOOL hasData = NO;
+        [dataMuableArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            if ([obj[@"id"] isEqualToString:_contentDictionary[@"id"]]) {
+                hasData = YES;
+                *stop = YES;
+            }else{
+                hasData = NO;
+            }
+        }];
+        hasData?[dataMuableArray removeObject:_contentDictionary]:[dataMuableArray insertObject:_contentDictionary atIndex:0];
+    }
     [NSObject save:@{@"message":dataMuableArray} toTable:@"collect"];
     self.navigationItem.rightBarButtonItem = nil;
 }
@@ -34,17 +41,24 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    _collectButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"收藏" style:UIBarButtonItemStylePlain target:self action:@selector(collectButtonItemClicked:)];
+    
     if (!_unNeedCollectItem) {
         NSArray *messageArray = [NSObject getDataWithTable:@"collect"][@"message"];
-        [messageArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            if ([obj isEqualToDictionary:_contentDictionary]) {
-                self.navigationItem.rightBarButtonItem = nil;
-                *stop = YES;
-            }else{
-                _collectButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"收藏" style:UIBarButtonItemStylePlain target:self action:@selector(collectButtonItemClicked:)];
-                self.navigationItem.rightBarButtonItem = _collectButtonItem;
-            }
-        }];
+        if ([messageArray count] > 0) {
+            __block BOOL hasData = NO;
+            [messageArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                if ([obj[@"id"] isEqualToString:_contentDictionary[@"id"]]) {
+                    hasData = YES;
+                    *stop = YES;
+                }else{
+                    hasData = NO;
+                }
+            }];
+            hasData?(self.navigationItem.rightBarButtonItem=nil):(self.navigationItem.rightBarButtonItem = _collectButtonItem);
+        }else{
+            self.navigationItem.rightBarButtonItem = _collectButtonItem;
+        }
     }
     
     _webView = [[UIWebView alloc] initWithFrame:CGRectZero];
