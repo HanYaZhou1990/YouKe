@@ -273,11 +273,19 @@
 #pragma mark -
 #pragma mark UICollectionViewDelegateFlowLayout -
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section{
-    return 4.0;
+    if ([_contentArray[section][@"leaf"] integerValue] == 0) {
+        return 0.0f;
+    }else{
+        return 4.0;
+    }
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section{
-    return 4.0;
+    if ([_contentArray[section][@"leaf"] integerValue] == 0) {
+        return 0.0f;
+    }else{
+        return 4.0;
+    }
 }
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
@@ -285,16 +293,21 @@
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    if (_menuView.selectedItem.row == 1) {
-        return CGSizeMake((CGRectGetWidth(self.view.frame) - 22)/4, 36+(CGRectGetWidth(self.view.frame) - 22)/4+8);
-    }else{
+    if ([_contentArray[indexPath.section][@"leaf"] integerValue] == 0) {
+        return CGSizeMake((CGRectGetWidth(self.view.frame) - 10)/4, 20+((CGRectGetWidth(self.view.frame) - 22)/4*3/4)+8);
+    }else {
         return CGSizeMake((CGRectGetWidth(self.view.frame) - 22)/4, 36);
     }
+//    if (_menuView.selectedItem.row == 1) {
+//        return CGSizeMake((CGRectGetWidth(self.view.frame) - 22)/4, 36+(CGRectGetWidth(self.view.frame) - 22)/4+8);
+//    }else{
+//        return CGSizeMake((CGRectGetWidth(self.view.frame) - 22)/4, 36);
+//    }
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
 {
-    return CGSizeMake(CGRectGetWidth(self.view.frame), 40);
+    return CGSizeMake(CGRectGetWidth(self.view.frame), 36);
 }
 
 - (void)didReceiveMemoryWarning {

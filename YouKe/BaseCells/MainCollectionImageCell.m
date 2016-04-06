@@ -28,7 +28,7 @@
         [self addSubview:_titleLable];
         
         /*!为了展示方形图片，取图片宽度作为高度*/
-        CGFloat imageHeight = CGRectGetWidth(frame)-4;
+        CGFloat imageHeight = (CGRectGetWidth(frame)-4)*3/4;
         
         [self addConstraints:[NSLayoutConstraint
                               constraintsWithVisualFormat:@"H:|-2-[_titleLable]-2-|"
