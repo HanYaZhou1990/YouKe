@@ -294,7 +294,7 @@
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
     if ([_contentArray[indexPath.section][@"leaf"] integerValue] == 0) {
-        return CGSizeMake((CGRectGetWidth(self.view.frame) - 10)/4, 20+((CGRectGetWidth(self.view.frame) - 22)/4*3/4)+8);
+        return CGSizeMake((CGRectGetWidth(self.view.frame) - 10)/4, 20+((CGRectGetWidth(self.view.frame) - 22)/4*3/4)+2);
     }else {
         return CGSizeMake((CGRectGetWidth(self.view.frame) - 22)/4, 36);
     }

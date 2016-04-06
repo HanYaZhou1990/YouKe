@@ -41,7 +41,7 @@
                               metrics:nil
                               views:NSDictionaryOfVariableBindings(_titleImageView)]];
         [self addConstraints:[NSLayoutConstraint
-                              constraintsWithVisualFormat:[NSString stringWithFormat:@"V:|[_titleImageView(==%f)]-[_titleLable]|",imageHeight]
+                              constraintsWithVisualFormat:[NSString stringWithFormat:@"V:|[_titleImageView(==%f)]-2-[_titleLable]|",imageHeight]
                               options:1.0
                               metrics:nil
                               views:NSDictionaryOfVariableBindings(_titleImageView,_titleLable)]];
